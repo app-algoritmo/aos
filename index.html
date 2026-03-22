@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AOS — Associação dos Oficiais de Saúde da PMESP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:     #0f1a0e;
+      --forest:  #1a2e1a;
+      --moss:    #2d4a2d;
+      --olive:   #4a6741;
+      --sage:    #7a9e72;
+      --gold:    #c9a84c;
+      --gold-lt: #e4c46a;
+      --gold-dk: #8c6e2a;
+      --cream:   #f2ead8;
+      --parch:   #e8dfc4;
+      --white:   #fdfaf3;
+      --muted:   #9a9080;
+      --r: 4px;
+      --trans: 0.35s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--forest); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* CURSOR */
+    .cursor {
+      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+      background: var(--gold); border-radius: 50%; pointer-events: none;
+      z-index: 9999; transform: translate(-50%,-50%);
+      transition: width .2s, height .2s; mix-blend-mode: difference;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 68px;
+      background: rgba(15,26,14,0.97);
+      border-bottom: 1px solid rgba(201,168,76,0.22);
+      backdrop-filter: blur(10px);
+      transition: box-shadow var(--trans);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 13px; text-decoration: none; }
+    .logo-hex { width: 38px; height: 44px; flex-shrink: 0; }
+    .nav-wordmark strong { display: block; font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--gold-lt); letter-spacing:.06em; }
+    .nav-wordmark small  { display: block; font-size:.61rem; color:rgba(255,255,255,.4); letter-spacing:.18em; text-transform:uppercase; }
+    .nav-links { display:flex; list-style:none; gap:2.2rem; align-items:center; }
+    .nav-links a { color:rgba(255,255,255,.6); text-decoration:none; font-size:.78rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; transition:color var(--trans); position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transition:transform var(--trans); }
+    .nav-links a:hover { color:var(--gold-lt); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+    .nav-btn { background:transparent!important; color:var(--gold)!important; border:1px solid var(--gold)!important; padding:.5rem 1.3rem; border-radius:var(--r); font-size:.74rem!important; font-weight:600!important; letter-spacing:.14em!important; transition:background var(--trans),color var(--trans)!important; }
+    .nav-btn:hover { background:var(--gold)!important; color:var(--ink)!important; }
+    .nav-btn::after { display:none!important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; background: var(--forest);
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-deco { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+    .hero-deco svg { width:100%; height:100%; }
+    .hero-left {
+      position:relative; z-index:2;
+      display:flex; flex-direction:column; justify-content:center;
+      padding: 8rem 3.5rem 5rem 4rem;
+    }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.35);
+      border-radius:100px; padding:.35rem 1rem;
+      font-size:.7rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:2.5rem; width:fit-content;
+      animation: slideIn .7s ease both;
+    }
+    .pill-dot { width:6px; height:6px; background:var(--gold); border-radius:50%; animation:blink 2s ease infinite; }
+    .hero-h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(3rem,5vw,5.5rem); font-weight:900;
+      color:var(--white); line-height:1; letter-spacing:-.01em;
+      margin-bottom:.4rem; animation:slideIn .8s .1s ease both;
+    }
+    .hero-h1 .accent { color:var(--gold); font-style:italic; display:block; }
+    .hero-h1 .sub-word {
+      font-size:.55em; font-weight:400; color:rgba(255,255,255,.4);
+      font-style:normal; letter-spacing:.22em; text-transform:uppercase;
+      display:block; margin-bottom:.5rem;
+    }
+    .hero-rule { width:80px; height:2px; background:linear-gradient(90deg,var(--gold),transparent); margin:2rem 0; animation:slideIn .9s .2s ease both; }
+    .hero-desc { font-size:1rem; font-weight:300; color:rgba(255,255,255,.55); line-height:1.85; max-width:440px; margin-bottom:3rem; animation:slideIn .9s .3s ease both; }
+    .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; animation:slideIn 1s .4s ease both; }
+    .btn-gold { background:var(--gold); color:var(--ink); padding:.95rem 2.4rem; font-size:.82rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border-radius:var(--r); border:none; cursor:pointer; transition:all var(--trans); display:inline-block; }
+    .btn-gold:hover { background:var(--gold-lt); transform:translateY(-3px); box-shadow:0 10px 30px rgba(201,168,76,.3); }
+    .btn-ghost { background:transparent; color:rgba(255,255,255,.7); padding:.95rem 2.4rem; font-size:.82rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border-radius:var(--r); border:1px solid rgba(255,255,255,.2); cursor:pointer; transition:all var(--trans); display:inline-block; }
+    .btn-ghost:hover { border-color:var(--gold); color:var(--gold); }
+    .hero-right { position:relative; z-index:2; display:flex; align-items:center; justify-content:center; padding:6rem 3rem; }
+    .emblem-stage { position:relative; width:340px; height:340px; display:flex; align-items:center; justify-content:center; }
+    .orbit { position:absolute; border-radius:50%; border:1px dashed rgba(201,168,76,.2); }
+    .orbit-1 { width:100%; height:100%; animation:spin 30s linear infinite; }
+    .orbit-2 { width:72%; height:72%; animation:spin 20s linear infinite reverse; }
+    .orbit-3 { width:44%; height:44%; border-color:rgba(201,168,76,.35); animation:spin 12s linear infinite; }
+    .orbit-dot { position:absolute; width:5px; height:5px; background:var(--gold); border-radius:50%; top:-2.5px; left:calc(50% - 2.5px); transform-origin:2.5px 172px; }
+    .orbit-dot:nth-child(2) { transform:rotate(90deg); }
+    .orbit-dot:nth-child(3) { transform:rotate(180deg); }
+    .orbit-dot:nth-child(4) { transform:rotate(270deg); }
+    .emblem-center { position:relative; z-index:5; width:180px; height:200px; }
+
+    /* MARQUEE */
+    .marquee-strip { background:var(--gold); padding:.85rem 0; overflow:hidden; white-space:nowrap; }
+    .marquee-track { display:inline-flex; gap:3rem; animation:marquee 22s linear infinite; }
+    .marquee-item { font-size:.72rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); display:inline-flex; align-items:center; gap:1rem; }
+    .marquee-item::before { content:'✦'; font-size:.6rem; }
+
+    /* SOBRE */
+    .sobre { background:var(--white); padding:7rem 4rem; }
+    .sobre-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:5fr 7fr; gap:7rem; align-items:start; }
+    .section-eyebrow { font-size:.7rem; font-weight:600; letter-spacing:.25em; text-transform:uppercase; color:var(--gold-dk); display:flex; align-items:center; gap:10px; margin-bottom:1.4rem; }
+    .section-eyebrow::before { content:''; display:block; width:28px; height:2px; background:var(--gold); }
+    .sobre h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.8rem); font-weight:700; line-height:1.2; color:var(--ink); margin-bottom:2rem; }
+    .sobre h2 em { font-style:italic; color:var(--olive); }
+    .sobre p { font-size:.96rem; font-weight:300; line-height:1.9; color:#4a4a3a; margin-bottom:1.4rem; }
+    .sobre-stat-row { display:flex; gap:2.5rem; margin-top:2.5rem; padding-top:2.5rem; border-top:1px solid var(--parch); }
+    .sobre-stat h3 { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; color:var(--gold); line-height:1; }
+    .sobre-stat p { font-size:.75rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0; }
+    .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .feat-card { background:var(--cream); border:1px solid var(--parch); border-radius:var(--r); padding:1.8rem 1.6rem; transition:transform var(--trans),box-shadow var(--trans),border-color var(--trans); cursor:default; }
+    .feat-card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(15,26,14,.08); border-color:var(--gold); }
+    .feat-icon { width:44px; height:44px; background:var(--forest); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:1rem; }
+    .feat-card h4 { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--ink); margin-bottom:.5rem; }
+    .feat-card p { font-size:.83rem; font-weight:300; line-height:1.65; color:#5a5a4a; margin:0; }
+
+    /* BENEFÍCIOS */
+    .beneficios { background:var(--ink); padding:7rem 4rem; position:relative; overflow:hidden; }
+    .beneficios::after { content:'AOS'; position:absolute; right:-.5rem; top:50%; transform:translateY(-50%); font-family:'Playfair Display',serif; font-size:clamp(12rem,18vw,22rem); font-weight:900; color:rgba(255,255,255,.02); line-height:1; pointer-events:none; user-select:none; }
+    .beneficios-inner { max-width:1200px; margin:0 auto; position:relative; z-index:2; }
+    .beneficios-header { display:grid; grid-template-columns:1fr 2fr; gap:4rem; align-items:start; margin-bottom:4.5rem; }
+    .beneficios h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,3rem); font-weight:700; line-height:1.15; color:var(--white); }
+    .beneficios h2 em { color:var(--gold); font-style:italic; }
+    .beneficios-lead { font-size:.97rem; font-weight:300; color:rgba(255,255,255,.5); line-height:1.85; padding-top:.5rem; }
+    .beneficios .section-eyebrow { color:rgba(201,168,76,.7); }
+    .beneficios .section-eyebrow::before { background:var(--gold); }
+    .ben-list { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.06); }
+    .ben-item { background:var(--ink); padding:2.4rem 2rem; position:relative; overflow:hidden; transition:background var(--trans); }
+    .ben-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); transform:scaleY(0); transform-origin:top; transition:transform var(--trans); }
+    .ben-item:hover { background:rgba(201,168,76,.05); }
+    .ben-item:hover::before { transform:scaleY(1); }
+    .ben-num { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; color:rgba(201,168,76,.15); line-height:1; margin-bottom:.8rem; }
+    .ben-item h4 { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--white); margin-bottom:.7rem; }
+    .ben-item p { font-size:.84rem; font-weight:300; color:rgba(255,255,255,.45); line-height:1.75; }
+
+    /* EVENTOS */
+    .eventos { background:var(--cream); padding:7rem 4rem; }
+    .eventos-inner { max-width:1200px; margin:0 auto; }
+    .eventos-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3.5rem; }
+    .eventos h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.8rem); font-weight:700; color:var(--ink); }
+    .link-more { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--olive); text-decoration:none; border-bottom:1px solid var(--olive); padding-bottom:2px; transition:color var(--trans),border-color var(--trans); }
+    .link-more:hover { color:var(--gold-dk); border-color:var(--gold-dk); }
+    .ev-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr; grid-template-rows:auto auto; gap:1.2rem; }
+    .ev-card { background:var(--white); border-radius:var(--r); overflow:hidden; display:flex; flex-direction:column; transition:transform var(--trans),box-shadow var(--trans); }
+    .ev-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(15,26,14,.12); }
+    .ev-card.featured { grid-row:span 2; }
+    .ev-thumb { background:var(--forest); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; }
+    .ev-card.featured .ev-thumb { height:280px; }
+    .ev-card:not(.featured) .ev-thumb { height:160px; }
+    .ev-thumb-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(15,26,14,.7) 0%,rgba(201,168,76,.2) 100%); }
+    .ev-thumb-icon { position:relative; z-index:2; font-size:3.5rem; }
+    .ev-card.featured .ev-thumb-icon { font-size:5rem; }
+    .ev-body { padding:1.6rem 1.8rem; flex:1; display:flex; flex-direction:column; }
+    .ev-tag { font-size:.66rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-dk); margin-bottom:.5rem; }
+    .ev-card h3 { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--ink); line-height:1.3; margin-bottom:.7rem; }
+    .ev-card.featured h3 { font-size:1.5rem; }
+    .ev-card p { font-size:.83rem; font-weight:300; line-height:1.7; color:#5a5a4a; flex:1; }
+    .ev-date { font-size:.73rem; font-weight:500; color:var(--sage); margin-top:1rem; display:flex; align-items:center; gap:5px; }
+
+    /* ÁREAS */
+    .areas { background:var(--moss); padding:6rem 4rem; }
+    .areas-inner { max-width:1200px; margin:0 auto; }
+    .areas h2 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,2.5vw,2.4rem); font-weight:700; color:var(--white); text-align:center; margin-bottom:3.5rem; }
+    .areas h2 span { color:var(--gold); font-style:italic; }
+    .areas-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+    .area-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:var(--r); padding:2.2rem 1.6rem; text-align:center; transition:all var(--trans); }
+    .area-card:hover { background:rgba(201,168,76,.12); border-color:rgba(201,168,76,.4); transform:translateY(-4px); }
+    .area-emoji { font-size:2.4rem; margin-bottom:.8rem; }
+    .area-card h4 { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--white); margin-bottom:.5rem; }
+    .area-card p { font-size:.82rem; color:rgba(255,255,255,.5); line-height:1.6; }
+
+    /* CTA */
+    .cta-band { background:var(--gold); padding:6rem 4rem; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; overflow:hidden; }
+    .cta-band::before,.cta-band::after { content:''; position:absolute; border-radius:50%; border:1px solid rgba(15,26,14,.1); }
+    .cta-band::before { width:600px; height:600px; top:-250px; left:-200px; }
+    .cta-band::after  { width:400px; height:400px; bottom:-200px; right:-100px; }
+    .cta-band-inner { position:relative; z-index:2; max-width:620px; }
+    .cta-band h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:900; color:var(--ink); line-height:1.1; margin-bottom:1.2rem; }
+    .cta-band p { font-size:1rem; font-weight:300; color:rgba(15,26,14,.7); line-height:1.8; margin-bottom:2.5rem; }
+    .btn-dark { background:var(--ink); color:var(--gold); padding:1rem 2.8rem; font-size:.85rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; border-radius:var(--r); transition:all var(--trans); display:inline-block; }
+    .btn-dark:hover { background:var(--forest); transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,.2); }
+
+    /* CONTATO */
+    .contato { background:var(--forest); padding:7rem 4rem; }
+    .contato-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:6rem; }
+    .contato .section-eyebrow { color:rgba(201,168,76,.6); }
+    .contato .section-eyebrow::before { background:var(--gold); }
+    .contato h2 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,2.5vw,2.5rem); font-weight:700; color:var(--white); margin-bottom:2.5rem; }
+    .info-block { display:flex; flex-direction:column; gap:1.3rem; }
+    .info-row { display:flex; gap:1rem; align-items:flex-start; }
+    .info-ico { width:38px; height:38px; border-radius:50%; background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.25); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; margin-top:2px; }
+    .info-text strong { display:block; font-size:.73rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:2px; }
+    .info-text span { font-size:.9rem; color:rgba(255,255,255,.6); line-height:1.5; }
+    .socials { display:flex; gap:.8rem; margin-top:2rem; }
+    .soc-btn { width:42px; height:42px; border-radius:50%; border:1px solid rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.5); text-decoration:none; font-size:.9rem; transition:all var(--trans); }
+    .soc-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,.1); }
+    .c-form { display:flex; flex-direction:column; gap:1rem; }
+    .c-form input,.c-form textarea { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:var(--white); padding:.9rem 1.2rem; border-radius:var(--r); font-family:'Outfit',sans-serif; font-size:.9rem; outline:none; transition:border-color var(--trans); }
+    .c-form input::placeholder,.c-form textarea::placeholder { color:rgba(255,255,255,.25); }
+    .c-form input:focus,.c-form textarea:focus { border-color:var(--gold); }
+    .c-form textarea { height:140px; resize:none; }
+    .btn-submit { background:var(--gold); color:var(--ink); border:none; cursor:pointer; padding:.95rem; font-family:'Outfit',sans-serif; font-size:.82rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; border-radius:var(--r); transition:all var(--trans); }
+    .btn-submit:hover { background:var(--gold-lt); }
+
+    /* FOOTER */
+    footer { background:var(--ink); padding:2.2rem 4rem; border-top:1px solid rgba(201,168,76,.15); }
+    .footer-inner { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+    .footer-brand { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--gold); }
+    .footer-copy { font-size:.77rem; color:rgba(255,255,255,.25); }
+    .footer-nav { display:flex; gap:2rem; }
+    .footer-nav a { font-size:.77rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color var(--trans); }
+    .footer-nav a:hover { color:var(--gold-lt); }
+
+    /* ANIMATIONS */
+    @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      nav{padding:0 1.5rem;}
+      .nav-links{display:none;}
+      .hero{grid-template-columns:1fr;}
+      .hero-right{display:none;}
+      .hero-left{padding:8rem 2rem 5rem;}
+      .sobre-inner{grid-template-columns:1fr;gap:3rem;}
+      .beneficios-header{grid-template-columns:1fr;gap:1.5rem;}
+      .ben-list{grid-template-columns:1fr 1fr;}
+      .ev-grid{grid-template-columns:1fr;}
+      .ev-card.featured{grid-row:auto;}
+      .areas-row{grid-template-columns:1fr 1fr;}
+      .contato-inner{grid-template-columns:1fr;gap:3rem;}
+      .sobre,.beneficios,.eventos,.areas,.cta-band,.contato{padding:5rem 1.5rem;}
+      .footer-inner{flex-direction:column;text-align:center;}
+      .footer-nav{flex-wrap:wrap;justify-content:center;}
+    }
+    @media(max-width:600px){
+      .ben-list{grid-template-columns:1fr;}
+      .areas-row{grid-template-columns:1fr;}
+      .features-grid{grid-template-columns:1fr;}
+      .sobre-stat-row{flex-wrap:wrap;gap:1.5rem;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">
+    <svg class="logo-hex" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 1L38 11v24L20 45 2 35V11L20 1z" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
+      <path d="M20 7L33 14v18L20 39 7 32V14L20 7z" fill="rgba(201,168,76,0.08)" stroke="#c9a84c" stroke-width="0.7"/>
+      <rect x="15.5" y="18" width="9" height="20" rx="1.2" fill="#c9a84c" opacity="0.85"/>
+      <rect x="11" y="22.5" width="18" height="9" rx="1.2" fill="#c9a84c" opacity="0.85"/>
+      <circle cx="20" cy="27" r="3.5" fill="#0f1a0e" opacity="0.6"/>
+    </svg>
+    <div class="nav-wordmark">
+      <strong>AOS</strong>
+      <small>Oficiais de Saúde · PMESP</small>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#beneficios">Benefícios</a></li>
+    <li><a href="#eventos">Eventos</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="https://aos.org.br/cadastrar/" target="_blank" class="nav-btn">Associe-se</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-deco" aria-hidden="true">
+    <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="g" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
+          <path d="M60 0L0 0 0 60" fill="none" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="1400" height="900" fill="url(#g)"/>
+      <circle cx="1000" cy="450" r="380" fill="none" stroke="rgba(201,168,76,0.06)" stroke-width="1"/>
+      <circle cx="1000" cy="450" r="280" fill="none" stroke="rgba(201,168,76,0.08)" stroke-width="1"/>
+      <circle cx="1000" cy="450" r="180" fill="none" stroke="rgba(201,168,76,0.10)" stroke-width="1"/>
+      <path d="M0 0 L120 0 L0 120 Z" fill="rgba(201,168,76,0.04)"/>
+      <path d="M0 900 L120 900 L0 780 Z" fill="rgba(201,168,76,0.04)"/>
+    </svg>
+  </div>
+
+  <div class="hero-left">
+    <div class="pill"><div class="pill-dot"></div>Associação · PMESP · São Paulo</div>
+    <h1 class="hero-h1">
+      <span class="sub-word">Associação dos</span>
+      Oficiais de<br/>
+      <span class="accent">Saúde</span>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-desc">Entidade civil sem fins lucrativos que representa, defende e fortalece os profissionais de saúde da Polícia Militar do Estado de São Paulo — Medicina, Odontologia, Farmácia e Veterinária.</p>
+    <div class="hero-actions">
+      <a href="https://aos.org.br/aos/seja-um-associado/" target="_blank" class="btn-gold">Seja Associado</a>
+      <a href="https://aos.org.br/aos/" target="_blank" class="btn-ghost">Conhecer a AOS</a>
+    </div>
+  </div>
+
+  <div class="hero-right" aria-hidden="true">
+    <div class="emblem-stage">
+      <div class="orbit orbit-1">
+        <div class="orbit-dot"></div><div class="orbit-dot"></div>
+        <div class="orbit-dot"></div><div class="orbit-dot"></div>
+      </div>
+      <div class="orbit orbit-2"></div>
+      <div class="orbit orbit-3"></div>
+      <svg class="emblem-center" viewBox="0 0 180 200" fill="none">
+        <path d="M90 6L16 38v60c0 48 32 86 74 102 42-16 74-54 74-102V38L90 6z" fill="rgba(201,168,76,0.08)" stroke="#c9a84c" stroke-width="1.6"/>
+        <path d="M90 20L28 46v52c0 40 26 72 62 86 36-14 62-46 62-86V46L90 20z" fill="rgba(201,168,76,0.05)" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+        <rect x="79" y="60" width="22" height="66" rx="3" fill="rgba(201,168,76,0.7)"/>
+        <rect x="56" y="83" width="68" height="22" rx="3" fill="rgba(201,168,76,0.7)"/>
+        <circle cx="90" cy="94" r="14" fill="rgba(26,46,26,0.85)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+        <text x="90" y="100" text-anchor="middle" dominant-baseline="middle" font-family="'Playfair Display',serif" font-size="14" font-weight="700" fill="#c9a84c">QOS</text>
+        <text x="90" y="156" text-anchor="middle" font-family="'Playfair Display',serif" font-size="7.5" fill="rgba(201,168,76,0.55)" letter-spacing="3">PMESP</text>
+        <text x="90" y="168" text-anchor="middle" font-family="'Playfair Display',serif" font-size="6" fill="rgba(201,168,76,0.35)" letter-spacing="2">SAÚDE · CIÊNCIA · CARREIRA</text>
+        <text x="36" y="34" text-anchor="middle" font-size="8" fill="rgba(201,168,76,0.4)">★</text>
+        <text x="144" y="34" text-anchor="middle" font-size="8" fill="rgba(201,168,76,0.4)">★</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Medicina Militar</span><span class="marquee-item">Odontologia</span>
+    <span class="marquee-item">Farmácia</span><span class="marquee-item">Medicina Veterinária</span>
+    <span class="marquee-item">Assistência Jurídica</span><span class="marquee-item">Artigos Científicos</span>
+    <span class="marquee-item">SIMPOS</span><span class="marquee-item">Carreira QOS</span>
+    <span class="marquee-item">Medicina Militar</span><span class="marquee-item">Odontologia</span>
+    <span class="marquee-item">Farmácia</span><span class="marquee-item">Medicina Veterinária</span>
+    <span class="marquee-item">Assistência Jurídica</span><span class="marquee-item">Artigos Científicos</span>
+    <span class="marquee-item">SIMPOS</span><span class="marquee-item">Carreira QOS</span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section class="sobre" id="sobre">
+  <div class="sobre-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Quem Somos</div>
+      <h2>A voz dos Oficiais de Saúde da <em>PMESP</em></h2>
+      <p>A AOS é uma entidade associativa civil, sem fins lucrativos, idealizada a partir do Centro de Estudos do Sistema de Saúde da Polícia Militar do Estado de São Paulo (CESS).</p>
+      <p>Reunimos médicos, dentistas, farmacêuticos e veterinários que servem à Polícia Militar, trabalhando pela valorização da carreira, pela produção científica e pela representação institucional dos Oficiais do Quadro de Saúde.</p>
+      <div class="sobre-stat-row">
+        <div class="sobre-stat"><h3>4</h3><p>Áreas da Saúde</p></div>
+        <div class="sobre-stat"><h3>2°</h3><p>SIMPOS realizado</p></div>
+        <div class="sobre-stat"><h3>SP</h3><p>Estado de São Paulo</p></div>
+      </div>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card reveal"><div class="feat-icon">⚖️</div><h4>Ações Jurídicas</h4><p>Defesa dos direitos em ações junto ao judiciário relacionadas à carreira e remuneração.</p></div>
+      <div class="feat-card reveal" style="transition-delay:.1s"><div class="feat-icon">🔬</div><h4>Artigos Científicos</h4><p>Publicações em Medicina, Odontologia, Farmácia, Veterinária e Monografias.</p></div>
+      <div class="feat-card reveal" style="transition-delay:.15s"><div class="feat-icon">🎓</div><h4>Simpósios e Eventos</h4><p>SIMPOS anual, palestras técnicas, confraternizações e formaturas.</p></div>
+      <div class="feat-card reveal" style="transition-delay:.2s"><div class="feat-icon">📢</div><h4>Comunicação</h4><p>Notícias, comunicados oficiais e clipping para manter associados informados.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS -->
+<section class="beneficios" id="beneficios">
+  <div class="beneficios-inner">
+    <div class="beneficios-header">
+      <div class="reveal">
+        <div class="section-eyebrow">Para Membros</div>
+        <h2>Vantagens <em>exclusivas</em> para associados</h2>
+      </div>
+      <p class="beneficios-lead reveal">Ao se associar à AOS, o Oficial de Saúde acessa benefícios que apoiam sua vida profissional, financeira e o engajamento com a comunidade científica da saúde militar.</p>
+    </div>
+    <div class="ben-list">
+      <div class="ben-item reveal"><div class="ben-num">01</div><h4>Assistência Jurídica</h4><p>Defesa em ações sobre remuneração, carreira e direitos dos oficiais de saúde.</p></div>
+      <div class="ben-item reveal" style="transition-delay:.08s"><div class="ben-num">02</div><h4>Clube de Compras</h4><p>Descontos em produtos e serviços para você e sua família.</p></div>
+      <div class="ben-item reveal" style="transition-delay:.16s"><div class="ben-num">03</div><h4>Indicadores de Saúde</h4><p>Dados exclusivos sobre saúde do policial militar e gestão em saúde pública.</p></div>
+      <div class="ben-item reveal" style="transition-delay:.24s"><div class="ben-num">04</div><h4>Divulgação Profissional</h4><p>Espaço dedicado no site da AOS para divulgar consultórios e serviços.</p></div>
+      <div class="ben-item reveal" style="transition-delay:.32s"><div class="ben-num">05</div><h4>Imposto de Renda</h4><p>Orientação para declaração de IR voltada a militares da saúde.</p></div>
+      <div class="ben-item reveal" style="transition-delay:.40s"><div class="ben-num">06</div><h4>Biblioteca Científica</h4><p>Artigos exclusivos em todas as áreas de saúde representadas pela AOS.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTOS -->
+<section class="eventos" id="eventos">
+  <div class="eventos-inner">
+    <div class="section-eyebrow reveal">Agenda & Memória</div>
+    <div class="eventos-top">
+      <h2 class="reveal">Últimos Eventos</h2>
+      <a href="https://aos.org.br/eventos/" target="_blank" class="link-more reveal">Ver todos →</a>
+    </div>
+    <div class="ev-grid">
+      <div class="ev-card featured reveal">
+        <div class="ev-thumb"><div class="ev-thumb-overlay"></div><span class="ev-thumb-icon">🎖️</span></div>
+        <div class="ev-body">
+          <div class="ev-tag">Evento Anual · Tradição</div>
+          <h3>Jantar Anual dos Véios 2025</h3>
+          <p>O tradicional "Jantar dos Véios" reuniu mais uma vez os Oficiais de Saúde da PMESP em confraternização histórica, celebrando os laços da corporação.</p>
+          <div class="ev-date">📅 12 de Dezembro de 2025</div>
+        </div>
+      </div>
+      <div class="ev-card reveal" style="transition-delay:.1s">
+        <div class="ev-thumb"><div class="ev-thumb-overlay"></div><span class="ev-thumb-icon">🏥</span></div>
+        <div class="ev-body">
+          <div class="ev-tag">Científico · SIMPOS</div>
+          <h3>SIMPOS 2025</h3>
+          <p>II Simpósio — Tema: Abordagem da Dor nas diversas áreas da Saúde.</p>
+          <div class="ev-date">📅 11 de Outubro de 2025</div>
+        </div>
+      </div>
+      <div class="ev-card reveal" style="transition-delay:.18s">
+        <div class="ev-thumb"><div class="ev-thumb-overlay"></div><span class="ev-thumb-icon">🍷</span></div>
+        <div class="ev-body">
+          <div class="ev-tag">Confraternização</div>
+          <h3>Queijo e Vinho 2025</h3>
+          <p>Membros e familiares reunidos na colônia AOPM em Campos do Jordão.</p>
+          <div class="ev-date">📅 14 de Junho de 2025</div>
+        </div>
+      </div>
+      <div class="ev-card reveal" style="transition-delay:.1s">
+        <div class="ev-thumb"><div class="ev-thumb-overlay"></div><span class="ev-thumb-icon">🚶</span></div>
+        <div class="ev-body">
+          <div class="ev-tag">Saúde & Bem-estar</div>
+          <h3>1ª Caminhada dos Veteranos 2025</h3>
+          <p>Caminhada descontraída pela Invernada do Barro Branco, revendo histórias.</p>
+          <div class="ev-date">📅 29 de Maio de 2025</div>
+        </div>
+      </div>
+      <div class="ev-card reveal" style="transition-delay:.18s">
+        <div class="ev-thumb"><div class="ev-thumb-overlay"></div><span class="ev-thumb-icon">🏅</span></div>
+        <div class="ev-body">
+          <div class="ev-tag">Solenidade</div>
+          <h3>Medalha do Centenário — Dir. Saúde</h3>
+          <p>Solenidade na Sala São Paulo celebrando o centenário da Diretoria de Saúde.</p>
+          <div class="ev-date">📅 10 de Novembro de 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREAS -->
+<section class="areas">
+  <div class="areas-inner">
+    <h2 class="reveal">Áreas de <span>atuação</span> da AOS</h2>
+    <div class="areas-row">
+      <div class="area-card reveal"><div class="area-emoji">🩺</div><h4>Medicina</h4><p>Clínica, especialidades e pesquisa aplicada à saúde do policial militar.</p></div>
+      <div class="area-card reveal" style="transition-delay:.08s"><div class="area-emoji">🦷</div><h4>Odontologia</h4><p>Saúde bucal preventiva e especializada para PMs e suas famílias.</p></div>
+      <div class="area-card reveal" style="transition-delay:.16s"><div class="area-emoji">💊</div><h4>Farmácia</h4><p>Farmacologia, dispensação e gestão de medicamentos no contexto militar.</p></div>
+      <div class="area-card reveal" style="transition-delay:.24s"><div class="area-emoji">🐾</div><h4>Medicina Veterinária</h4><p>Saúde e bem-estar dos animais que integram o efetivo policial.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2>Faça parte desta comunidade</h2>
+    <p>Se você é Oficial de Saúde da PMESP, a AOS é o seu espaço. Associe-se e acesse representação jurídica, produção científica e uma rede de profissionais comprometidos com a saúde militar.</p>
+    <a href="https://aos.org.br/cadastrar/" target="_blank" class="btn-dark">Fazer Recadastro Agora</a>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section class="contato" id="contato">
+  <div class="contato-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Fale Conosco</div>
+      <h2>Entre em contato com a AOS</h2>
+      <div class="info-block">
+        <div class="info-row"><div class="info-ico">📞</div><div class="info-text"><strong>Telefone</strong><span>(11) 2281-7648</span></div></div>
+        <div class="info-row"><div class="info-ico">📱</div><div class="info-text"><strong>WhatsApp</strong><span>(11) 94328-4965</span></div></div>
+        <div class="info-row"><div class="info-ico">✉️</div><div class="info-text"><strong>E-mail</strong><span>aos@aos.org.br</span></div></div>
+        <div class="info-row"><div class="info-ico">📍</div><div class="info-text"><strong>Endereço</strong><span>Rua Conselheiro Saraiva, 306 — Conj. 74<br/>Santana · São Paulo/SP · CEP 02037-020</span></div></div>
+      </div>
+      <div class="socials">
+        <a href="https://www.facebook.com/aos.pmesp" target="_blank" class="soc-btn" title="Facebook">f</a>
+        <a href="https://www.instagram.com/aos_pmesp/" target="_blank" class="soc-btn" title="Instagram">📷</a>
+        <a href="https://wa.me/5511943284965" target="_blank" class="soc-btn" title="WhatsApp">💬</a>
+        <a href="https://www.youtube.com/@redessociaisaos3115" target="_blank" class="soc-btn" title="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="reveal">
+      <form class="c-form" onsubmit="submitForm(event)">
+        <input type="text" placeholder="Seu nome completo" required/>
+        <input type="email" placeholder="Seu e-mail" required/>
+        <input type="text" placeholder="Assunto"/>
+        <textarea placeholder="Escreva sua mensagem…"></textarea>
+        <button type="submit" class="btn-submit">Enviar Mensagem</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">AOS · PMESP</div>
+    <div class="footer-copy">© 2026 Associação dos Oficiais de Saúde da PMESP. Todos os direitos reservados.</div>
+    <nav class="footer-nav">
+      <a href="https://aos.org.br/aos/estatuto/" target="_blank">Estatuto</a>
+      <a href="https://aos.org.br/aos/administracao-atual/" target="_blank">Administração</a>
+      <a href="https://aos.org.br/acoes-juridicas/" target="_blank">Ações Jurídicas</a>
+      <a href="https://aos.org.br/artigos-cientificos/" target="_blank">Artigos</a>
+      <a href="https://aos.org.br/contato/" target="_blank">Contato</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => { cur.style.left=e.clientX+'px'; cur.style.top=e.clientY+'px'; });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';});
+    el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';});
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Nav shadow on scroll
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 40 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none';
+  });
+
+  // Form submit
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    const orig = btn.textContent;
+    btn.textContent = 'Mensagem Enviada ✓';
+    btn.style.background = '#2a6041';
+    btn.style.color = '#fff';
+    setTimeout(() => { btn.textContent=orig; btn.style.background=''; btn.style.color=''; e.target.reset(); }, 3500);
+  }
+</script>
+</body>
+</html>
