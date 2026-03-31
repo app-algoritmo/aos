@@ -217,7 +217,7 @@
 
   <!-- Contatos -->
   <div class="contacts">
-    <a href="/cdn-cgi/l/email-protection#b8d9d7cbf8d9d7cb96d7cadf96daca" class="contact-item">
+    <a href="#" class="contact-item" onclick="enviarEmail(); return false;">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
         <rect x="1" y="4" width="18" height="13" rx="2"/>
         <polyline points="1,5 10,11.5 19,5"/>
@@ -250,10 +250,10 @@
     </a>
   </div>
 
-  <!-- Botão principal -->
-  <a href="/cdn-cgi/l/email-protection#761719053617190558190411581404490503141c1315024b35191802170219534446373925" class="btn-email">
+  <!-- Botão principal — link montado via JS para não ser interceptado -->
+  <a href="#" id="btn-email" class="btn-email" onclick="enviarEmail(); return false;">
     <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
       <rect x="1" y="3.5" width="16" height="11" rx="2"/>
       <polyline points="1,4.5 9,10.5 17,4.5"/>
     </svg>
-    Enviar mensagem
+    Enviar mensagem à
