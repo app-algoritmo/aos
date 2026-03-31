@@ -22,7 +22,6 @@
       text-align: center;
     }
 
-    /* Fundo com padrão sutil */
     body::before {
       content: '';
       position: fixed;
@@ -40,7 +39,6 @@
       width: 100%;
     }
 
-    /* Tag */
     .tag {
       display: inline-block;
       font-size: 0.72rem;
@@ -54,7 +52,6 @@
       margin-bottom: 2rem;
     }
 
-    /* Título */
     h1 {
       font-family: 'Source Serif 4', Georgia, serif;
       font-size: clamp(1.8rem, 5vw, 2.8rem);
@@ -64,7 +61,6 @@
       margin-bottom: 1.4rem;
     }
 
-    /* Divisor ornamental */
     .divider {
       display: flex;
       align-items: center;
@@ -88,7 +84,6 @@
       opacity: 0.7;
     }
 
-    /* Mensagem */
     .message {
       font-size: 1.05rem;
       font-weight: 300;
@@ -98,7 +93,6 @@
       margin: 0 auto 2.5rem;
     }
 
-    /* Contatos */
     .contacts {
       display: flex;
       flex-direction: column;
@@ -110,16 +104,17 @@
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 0.9rem;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 8px;
       padding: 0.9rem 1.8rem;
-      min-width: 280px;
-      justify-content: center;
+      min-width: 300px;
+      justify-content: flex-start;
       transition: background 0.2s, border-color 0.2s;
       text-decoration: none;
       color: inherit;
+      cursor: pointer;
     }
 
     .contact-item:hover {
@@ -136,14 +131,14 @@
     }
 
     .contact-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.4);
       display: block;
       text-align: left;
-      margin-bottom: 1px;
+      margin-bottom: 2px;
     }
 
     .contact-value {
@@ -154,7 +149,6 @@
       text-align: left;
     }
 
-    /* Botão email */
     .btn-email {
       display: inline-flex;
       align-items: center;
@@ -162,11 +156,13 @@
       background: #e8945a;
       color: #fff;
       font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 600;
       padding: 0.9rem 2.2rem;
       border-radius: 6px;
       text-decoration: none;
+      border: none;
+      cursor: pointer;
       transition: background 0.2s, transform 0.15s;
       margin-top: 0.5rem;
     }
@@ -174,7 +170,6 @@
     .btn-email:hover {
       background: #d4804a;
       transform: translateY(-2px);
-      text-decoration: none;
     }
 
     .btn-email svg {
@@ -182,7 +177,6 @@
       height: 18px;
     }
 
-    /* Footer */
     .footer-text {
       font-size: 0.78rem;
       color: rgba(255,255,255,0.22);
@@ -195,39 +189,37 @@
 
 <div class="card">
 
-  <!-- Tag -->
-  <div class="tag">Associação dos Oficiais de Saúde · PMESP</div>
+  <div class="tag">Associação dos Oficiais de Saúde &middot; PMESP</div>
 
-  <!-- Título -->
-  <h1>Nosso site está<br/>em manutenção.</h1>
+  <h1>Nosso site est&aacute;<br/>em manuten&ccedil;&atilde;o.</h1>
 
-  <!-- Divisor -->
   <div class="divider">
     <div class="divider-line"></div>
     <div class="divider-dot"></div>
     <div class="divider-line rev"></div>
   </div>
 
-  <!-- Mensagem -->
   <p class="message">
-    Estamos trabalhando para oferecer uma experiência ainda melhor.
-    Em breve estaremos de volta. Para informações, dúvidas ou contato
-    com a associação, utilize os canais abaixo.
+    Estamos trabalhando para oferecer uma experi&ecirc;ncia ainda melhor.
+    Em breve estaremos de volta. Para informa&ccedil;&otilde;es, d&uacute;vidas
+    ou contato com a associa&ccedil;&atilde;o, utilize os canais abaixo.
   </p>
 
-  <!-- Contatos -->
   <div class="contacts">
-    <a href="#" class="contact-item" onclick="enviarEmail(); return false;">
+
+    <!-- Card e-mail — preenchido pelo JS -->
+    <div class="contact-item" id="card-email" style="cursor:pointer;">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
         <rect x="1" y="4" width="18" height="13" rx="2"/>
         <polyline points="1,5 10,11.5 19,5"/>
       </svg>
       <div>
         <span class="contact-label">E-mail</span>
-        <span class="contact-value"><span class="__cf_email__" data-cfemail="90f1ffe3d0f1ffe3beffe2f7bef2e2">[email&#160;protected]</span></span>
+        <span class="contact-value" id="email-display"></span>
       </div>
-    </a>
+    </div>
 
+    <!-- Telefone fixo — não tem texto de e-mail, sem risco -->
     <a href="tel:+551122817648" class="contact-item">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
         <path d="M3 2.5 L6 2.5 L7.5 6.5 L5.5 8 C6.5 10 8.5 12 10.5 13 L12 11 L16 12.5 L16 15.5 C16 16 15.5 16.5 15 16.5 C8 16.5 3 11 3 4 C3 3.5 3.5 2.5 3 2.5 Z"/>
@@ -238,6 +230,7 @@
       </div>
     </a>
 
+    <!-- WhatsApp -->
     <a href="https://wa.me/5511943284965" target="_blank" class="contact-item">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
         <circle cx="10" cy="10" r="8.5"/>
@@ -248,12 +241,50 @@
         <span class="contact-value">(11) 94328-4965</span>
       </div>
     </a>
+
   </div>
 
-  <!-- Botão principal — link montado via JS para não ser interceptado -->
-  <a href="#" id="btn-email" class="btn-email" onclick="enviarEmail(); return false;">
+  <!-- Botão principal — preenchido pelo JS -->
+  <button class="btn-email" id="btn-enviar">
     <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
       <rect x="1" y="3.5" width="16" height="11" rx="2"/>
       <polyline points="1,4.5 9,10.5 17,4.5"/>
     </svg>
-    Enviar mensagem à
+    Enviar mensagem &agrave; AOS
+  </button>
+
+  <p class="footer-text">
+    &copy; 2026 AOS &mdash; Associa&ccedil;&atilde;o dos Oficiais de Sa&uacute;de da PMESP &nbsp;&middot;&nbsp; S&atilde;o Paulo / SP
+  </p>
+
+</div>
+
+<script>
+  // Monta o endereço em partes — o Cloudflare não consegue interceptar variáveis JS
+  (function () {
+    var u = ['a', 'o', 's'];
+    var d = ['a', 'o', 's', '.', 'o', 'r', 'g', '.', 'b', 'r'];
+    var addr = u.join('') + '@' + d.join('');
+    var subj = 'Contato pelo site da AOS';
+
+    // Preenche o texto visível no card
+    var display = document.getElementById('email-display');
+    if (display) display.textContent = addr;
+
+    // Função que abre o cliente de e-mail
+    function abrirEmail() {
+      window.location.href = 'mai' + 'lto:' + addr + '?subject=' + encodeURIComponent(subj);
+    }
+
+    // Card de e-mail clicável
+    var card = document.getElementById('card-email');
+    if (card) card.addEventListener('click', abrirEmail);
+
+    // Botão principal
+    var btn = document.getElementById('btn-enviar');
+    if (btn) btn.addEventListener('click', abrirEmail);
+  })();
+</script>
+
+</body>
+</html>
