@@ -18,7 +18,6 @@
             --primary: #1d3557;
             --primary-light: #264673;
             --primary-dark: #152a45;
-            --accent: #e8edf2;
             --white: #ffffff;
             --gray-50: #f8f9fa;
             --gray-100: #e9ecef;
@@ -28,9 +27,7 @@
             --gray-800: #343a40;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -45,9 +42,7 @@
             background: var(--primary);
             padding: 8px 0;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
             box-shadow: 0 2px 20px rgba(29, 53, 87, 0.3);
         }
@@ -83,54 +78,57 @@
         .intranet-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(29, 53, 87, 0.1), transparent);
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(29,53,87,0.1), transparent);
             transition: left 0.5s;
         }
 
-        .intranet-btn:hover::before {
-            left: 100%;
-        }
+        .intranet-btn:hover::before { left: 100%; }
 
         .intranet-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
             background: #f0f4ff;
         }
 
-        .intranet-btn svg {
-            width: 18px;
-            height: 18px;
-            transition: transform 0.3s;
-        }
+        .intranet-btn svg { width: 18px; height: 18px; transition: transform 0.3s; }
+        .intranet-btn:hover svg { transform: translateX(3px); }
 
-        .intranet-btn:hover svg {
-            transform: translateX(3px);
-        }
-
-        .top-bar-links {
-            display: flex;
-            gap: 12px;
-        }
+        .top-bar-links { display: flex; gap: 12px; }
 
         .top-bar-links a {
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
             padding: 6px 14px;
             border-radius: 20px;
             transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .top-bar-links a:hover {
             color: var(--white);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: all 0.3s;
+            border-radius: 2px;
         }
 
         /* Hero Section */
@@ -148,10 +146,8 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
+            top: -50%; right: -20%;
+            width: 800px; height: 800px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
             animation: float 20s ease-in-out infinite;
@@ -160,19 +156,17 @@
         .hero::after {
             content: '';
             position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
+            bottom: -30%; left: -10%;
+            width: 600px; height: 600px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
             animation: float 15s ease-in-out infinite reverse;
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.05); }
-            66% { transform: translate(-20px, 20px) scale(0.95); }
+            0%, 100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(30px,-30px) scale(1.05); }
+            66% { transform: translate(-20px,20px) scale(0.95); }
         }
 
         .hero-grid-bg {
@@ -195,18 +189,39 @@
         .logo-container {
             margin-bottom: 40px;
             animation: fadeInDown 1s ease-out;
+            display: flex;
+            justify-content: center;
         }
 
         .logo-svg {
             width: 200px;
-            height: 230px;
-            filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: auto;
+            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.3));
+            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
         }
 
-        .logo-svg:hover {
-            transform: scale(1.05);
+        /* Garante que o SVG injetado tenha fundo transparente */
+        .logo-svg svg {
+            width: 100%;
+            height: auto;
+            display: block;
         }
+
+        .logo-svg svg rect,
+        .logo-svg svg [class*="background"],
+        .logo-svg svg [class*="bg"],
+        .logo-svg svg [id*="background"],
+        .logo-svg svg [id*="bg"] {
+            display: none !important;
+        }
+
+        /* Garante que o g/path do escudo tenha cor fixa */
+        .logo-svg svg path,
+        .logo-svg svg polygon {
+            transition: none;
+        }
+
+        .logo-svg:hover { transform: scale(1.05); }
 
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
@@ -225,7 +240,7 @@
 
         .hero-subtitle {
             font-size: clamp(14px, 2vw, 18px);
-            color: rgba(255, 255, 255, 0.75);
+            color: rgba(255,255,255,0.75);
             font-weight: 400;
             line-height: 1.7;
             margin-bottom: 48px;
@@ -259,15 +274,15 @@
             text-decoration: none;
             font-weight: 700;
             font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
             border: none;
             cursor: pointer;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
         }
 
         .btn-secondary {
@@ -282,42 +297,20 @@
             font-weight: 600;
             font-size: 15px;
             transition: all 0.3s;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
             transform: translateY(-3px);
         }
 
-        /* Wave Divider */
-        .wave-divider {
-            position: relative;
-            margin-top: -2px;
-        }
-
-        .wave-divider svg {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
         /* About Section */
-        .about {
-            padding: 100px 24px;
-            background: var(--white);
-        }
+        .about { padding: 100px 24px; background: var(--white); }
+        .container { max-width: 1200px; margin: 0 auto; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
+        .section-header { text-align: center; margin-bottom: 64px; }
 
         .section-label {
             display: inline-block;
@@ -360,7 +353,7 @@
             border: 1px solid var(--gray-200);
             border-radius: 20px;
             padding: 40px 32px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
             position: relative;
             overflow: hidden;
         }
@@ -368,9 +361,7 @@
         .feature-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             transform: scaleX(0);
@@ -378,19 +369,16 @@
             transform-origin: left;
         }
 
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
+        .feature-card:hover::before { transform: scaleX(1); }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(29, 53, 87, 0.12);
+            box-shadow: 0 20px 60px rgba(29,53,87,0.12);
             border-color: transparent;
         }
 
         .feature-icon {
-            width: 56px;
-            height: 56px;
+            width: 56px; height: 56px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border-radius: 16px;
             display: flex;
@@ -400,13 +388,10 @@
             transition: transform 0.3s;
         }
 
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(-5deg);
-        }
+        .feature-card:hover .feature-icon { transform: scale(1.1) rotate(-5deg); }
 
         .feature-icon svg {
-            width: 28px;
-            height: 28px;
+            width: 28px; height: 28px;
             stroke: var(--white);
             fill: none;
             stroke-width: 2;
@@ -427,113 +412,8 @@
             line-height: 1.7;
         }
 
-        /* Social Section */
-        .social-section {
-            padding: 100px 24px;
-            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .social-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            background: var(--white);
-            border: 2px solid var(--gray-200);
-            border-radius: 20px;
-            padding: 40px 24px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--primary);
-            opacity: 0;
-            transition: opacity 0.4s;
-            border-radius: 18px;
-        }
-
-        .social-card:hover::after {
-            opacity: 1;
-        }
-
-        .social-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px rgba(29, 53, 87, 0.2);
-        }
-
-        .social-card > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .social-icon-wrapper {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: var(--gray-50);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s;
-        }
-
-        .social-card:hover .social-icon-wrapper {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .social-icon-wrapper svg {
-            width: 30px;
-            height: 30px;
-            fill: var(--primary);
-            transition: fill 0.4s;
-        }
-
-        .social-card:hover .social-icon-wrapper svg {
-            fill: var(--white);
-        }
-
-        .social-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            transition: color 0.4s;
-        }
-
-        .social-card:hover .social-name {
-            color: var(--white);
-        }
-
-        .social-handle {
-            font-size: 13px;
-            color: var(--gray-600);
-            transition: color 0.4s;
-        }
-
-        .social-card:hover .social-handle {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
         /* Info Section */
-        .info-section {
-            padding: 100px 24px;
-            background: var(--white);
-        }
+        .info-section { padding: 100px 24px; background: var(--white); }
 
         .info-grid {
             display: grid;
@@ -574,7 +454,7 @@
 
         .stat-item:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(29, 53, 87, 0.08);
+            box-shadow: 0 10px 30px rgba(29,53,87,0.08);
         }
 
         .stat-number {
@@ -600,11 +480,98 @@
             align-items: center;
         }
 
-        .info-visual svg {
+        .info-visual .inline-svg-container {
             width: 100%;
-            max-width: 400px;
-            filter: drop-shadow(0 20px 40px rgba(29, 53, 87, 0.15));
+            max-width: 320px;
+            filter: drop-shadow(0 20px 40px rgba(29,53,87,0.15));
         }
+
+        .info-visual .inline-svg-container svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Social Section */
+        .social-section {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .social-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 20px;
+            padding: 40px 24px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.4s;
+            border-radius: 18px;
+        }
+
+        .social-card:hover::after { opacity: 1; }
+
+        .social-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(29,53,87,0.2);
+        }
+
+        .social-card > * { position: relative; z-index: 1; }
+
+        .social-icon-wrapper {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: var(--gray-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s;
+        }
+
+        .social-card:hover .social-icon-wrapper { background: rgba(255,255,255,0.2); }
+
+        .social-icon-wrapper svg { width: 30px; height: 30px; fill: var(--primary); transition: fill 0.4s; }
+        .social-card:hover .social-icon-wrapper svg { fill: var(--white); }
+
+        .social-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            transition: color 0.4s;
+        }
+
+        .social-card:hover .social-name { color: var(--white); }
+
+        .social-handle {
+            font-size: 13px;
+            color: var(--gray-600);
+            transition: color 0.4s;
+        }
+
+        .social-card:hover .social-handle { color: rgba(255,255,255,0.7); }
 
         /* CTA Section */
         .cta-section {
@@ -624,10 +591,7 @@
                 radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
         }
 
-        .cta-content {
-            position: relative;
-            z-index: 1;
-        }
+        .cta-content { position: relative; z-index: 1; }
 
         .cta-title {
             font-family: 'Playfair Display', serif;
@@ -639,7 +603,7 @@
 
         .cta-text {
             font-size: 17px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
             margin-bottom: 40px;
             max-width: 500px;
             margin-left: auto;
@@ -647,19 +611,10 @@
             line-height: 1.7;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
         /* Footer */
-        .footer {
-            background: #0d1b2a;
-            color: rgba(255, 255, 255, 0.6);
-            padding: 60px 24px 30px;
-        }
+        .footer { background: #0d1b2a; color: rgba(255,255,255,0.6); padding: 60px 24px 30px; }
 
         .footer-grid {
             max-width: 1200px;
@@ -670,17 +625,18 @@
             margin-bottom: 48px;
         }
 
-        .footer-brand .footer-logo {
-            width: 60px;
-            height: 70px;
+        .footer-brand .footer-logo-container {
+            width: 55px;
+            height: auto;
             margin-bottom: 20px;
         }
 
-        .footer-brand p {
-            font-size: 14px;
-            line-height: 1.7;
-            max-width: 300px;
+        .footer-brand .footer-logo-container svg {
+            width: 100%;
+            height: auto;
         }
+
+        .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; }
 
         .footer-col h4 {
             color: var(--white);
@@ -693,23 +649,20 @@
 
         .footer-col a {
             display: block;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255,255,255,0.5);
             text-decoration: none;
             font-size: 14px;
             padding: 6px 0;
             transition: all 0.3s;
         }
 
-        .footer-col a:hover {
-            color: var(--white);
-            transform: translateX(4px);
-        }
+        .footer-col a:hover { color: var(--white); transform: translateX(4px); }
 
         .footer-bottom {
             max-width: 1200px;
             margin: 0 auto;
             padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255,255,255,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -717,20 +670,14 @@
             gap: 16px;
         }
 
-        .footer-bottom p {
-            font-size: 13px;
-        }
+        .footer-bottom p { font-size: 13px; }
 
-        .footer-social-links {
-            display: flex;
-            gap: 12px;
-        }
+        .footer-social-links { display: flex; gap: 12px; }
 
         .footer-social-links a {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255,255,255,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -744,21 +691,18 @@
         }
 
         .footer-social-links a svg {
-            width: 18px;
-            height: 18px;
-            fill: rgba(255, 255, 255, 0.6);
+            width: 18px; height: 18px;
+            fill: rgba(255,255,255,0.6);
             transition: fill 0.3s;
         }
 
-        .footer-social-links a:hover svg {
-            fill: var(--white);
-        }
+        .footer-social-links a:hover svg { fill: var(--white); }
 
-        /* Scroll Animations */
+        /* Reveal Animations */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
         }
 
         .reveal.visible {
@@ -766,109 +710,58 @@
             transform: translateY(0);
         }
 
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
         }
 
-        .mobile-menu-btn span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--white);
-            margin: 5px 0;
-            transition: all 0.3s;
-            border-radius: 2px;
-        }
+        .intranet-btn.pulse { animation: pulse-ring 2s infinite; }
 
         /* Responsive */
         @media (max-width: 968px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 48px;
-            }
-
-            .info-visual {
-                order: -1;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 32px;
-            }
+            .info-grid { grid-template-columns: 1fr; gap: 48px; }
+            .info-visual { order: -1; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
         }
 
         @media (max-width: 768px) {
-            .top-bar-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .social-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .stats-row {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-            }
-
-            .stat-number {
-                font-size: 28px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero-cta-group {
-                flex-direction: column;
-                align-items: center;
-            }
+            .top-bar-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+            .social-grid { grid-template-columns: 1fr 1fr; }
+            .stats-row { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+            .stat-number { font-size: 28px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .hero-cta-group { flex-direction: column; align-items: center; }
         }
 
         @media (max-width: 480px) {
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .logo-svg {
-                width: 150px;
-                height: 175px;
-            }
+            .social-grid { grid-template-columns: 1fr; }
+            .logo-svg { width: 150px; }
         }
 
-        /* Pulse animation for intranet button */
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        /* Loading state para o logo */
+        .logo-loading {
+            width: 200px;
+            height: 230px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .intranet-btn.pulse {
-            animation: pulse-ring 2s infinite;
+        .logo-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
 
-        /* Counter animation */
-        .counting {
-            transition: none;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -890,9 +783,7 @@
                 <a href="https://aos.org.br" target="_blank">Site Oficial</a>
             </div>
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
         </div>
     </div>
@@ -901,20 +792,8 @@
     <section class="hero">
         <div class="hero-grid-bg"></div>
         <div class="hero-content">
-            <div class="logo-container">
-                <svg class="logo-svg" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#264673;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#1d3557;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M100 8 C100 8, 20 28, 18 78 C16 128, 38 198, 100 226 C162 198, 184 128, 182 78 C180 28, 100 8, 100 8Z" fill="url(#shieldGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <polygon points="100,14 132,64 100,114 68,64" fill="white"/>
-                    <polygon points="52,88 84,138 52,188 20,138" fill="white"/>
-                    <polygon points="100,114 132,164 100,214 68,164" fill="white"/>
-                    <polygon points="148,88 180,138 148,188 116,138" fill="white"/>
-                </svg>
+            <div class="logo-container" id="heroLogo">
+                <div class="logo-loading"><div class="spinner"></div></div>
             </div>
             <h1 class="hero-title">Associação dos Oficiais de Saúde</h1>
             <p class="hero-subtitle">
@@ -952,14 +831,10 @@
             <div class="features-grid">
                 <div class="feature-card reveal">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                     </div>
                     <h3 class="feature-title">Defesa Profissional</h3>
-                    <p class="feature-text">
-                        Representamos ativamente os oficiais de saúde da PMESP, garantindo direitos, benefícios e condições dignas de trabalho.
-                    </p>
+                    <p class="feature-text">Representamos ativamente os oficiais de saúde da PMESP, garantindo direitos, benefícios e condições dignas de trabalho.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">
@@ -971,9 +846,7 @@
                         </svg>
                     </div>
                     <h3 class="feature-title">Rede de Associados</h3>
-                    <p class="feature-text">
-                        Fortalecemos os laços entre os profissionais de saúde militar, promovendo integração, eventos e suporte mútuo.
-                    </p>
+                    <p class="feature-text">Fortalecemos os laços entre os profissionais de saúde militar, promovendo integração, eventos e suporte mútuo.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">
@@ -984,9 +857,7 @@
                         </svg>
                     </div>
                     <h3 class="feature-title">Formação Contínua</h3>
-                    <p class="feature-text">
-                        Incentivamos a atualização profissional com cursos, palestras e capacitações na área de saúde militar.
-                    </p>
+                    <p class="feature-text">Incentivamos a atualização profissional com cursos, palestras e capacitações na área de saúde militar.</p>
                 </div>
             </div>
         </div>
@@ -998,12 +869,8 @@
             <div class="info-grid">
                 <div class="info-content reveal">
                     <h3>Uma história de dedicação à saúde da PMESP</h3>
-                    <p>
-                        A Associação dos Oficiais de Saúde da Polícia Militar do Estado de São Paulo (AOS) foi fundada com o propósito de unir e fortalecer a categoria dos profissionais de saúde que atuam na corporação.
-                    </p>
-                    <p>
-                        Trabalhamos incansavelmente para garantir melhores condições de trabalho, valorização profissional e suporte jurídico aos nossos associados.
-                    </p>
+                    <p>A Associação dos Oficiais de Saúde da Polícia Militar do Estado de São Paulo (AOS) foi fundada com o propósito de unir e fortalecer a categoria dos profissionais de saúde que atuam na corporação.</p>
+                    <p>Trabalhamos incansavelmente para garantir melhores condições de trabalho, valorização profissional e suporte jurídico aos nossos associados.</p>
                     <div class="stats-row">
                         <div class="stat-item">
                             <div class="stat-number" data-target="500">0</div>
@@ -1019,40 +886,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-visual reveal">
-                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="infoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#1d3557;stop-opacity:0.1" />
-                                <stop offset="100%" style="stop-color:#1d3557;stop-opacity:0.05" />
-                            </linearGradient>
-                            <linearGradient id="infoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#1d3557;stop-opacity:0.15" />
-                                <stop offset="100%" style="stop-color:#1d3557;stop-opacity:0.05" />
-                            </linearGradient>
-                        </defs>
-                        <circle cx="200" cy="200" r="160" fill="url(#infoGrad1)" stroke="#1d3557" stroke-width="0.5" stroke-opacity="0.1"/>
-                        <circle cx="200" cy="200" r="120" fill="url(#infoGrad2)" stroke="#1d3557" stroke-width="0.5" stroke-opacity="0.1"/>
-                        <circle cx="200" cy="200" r="80" fill="url(#infoGrad1)" stroke="#1d3557" stroke-width="0.5" stroke-opacity="0.1"/>
-                        <!-- Shield -->
-                        <path d="M200 120 C200 120, 160 130, 159 155 C158 180, 169 215, 200 229 C231 215, 242 180, 241 155 C240 130, 200 120, 200 120Z" fill="#1d3557" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-                        <polygon points="200,127 216,150 200,173 184,150" fill="white" opacity="0.9"/>
-                        <polygon points="176,160 192,183 176,206 160,183" fill="white" opacity="0.9"/>
-                        <polygon points="200,173 216,196 200,219 184,196" fill="white" opacity="0.9"/>
-                        <polygon points="224,160 240,183 224,206 208,183" fill="white" opacity="0.9"/>
-                        <!-- Medical cross -->
-                        <rect x="190" y="85" width="20" height="20" rx="3" fill="#1d3557" opacity="0.3"/>
-                        <rect x="197" y="80" width="6" height="30" rx="1" fill="#1d3557" opacity="0.5"/>
-                        <rect x="185" y="92" width="30" height="6" rx="1" fill="#1d3557" opacity="0.5"/>
-                        <!-- Decorative dots -->
-                        <circle cx="140" cy="100" r="4" fill="#1d3557" opacity="0.15"/>
-                        <circle cx="260" cy="100" r="4" fill="#1d3557" opacity="0.15"/>
-                        <circle cx="130" cy="200" r="3" fill="#1d3557" opacity="0.1"/>
-                        <circle cx="270" cy="200" r="3" fill="#1d3557" opacity="0.1"/>
-                        <circle cx="150" cy="280" r="4" fill="#1d3557" opacity="0.12"/>
-                        <circle cx="250" cy="280" r="4" fill="#1d3557" opacity="0.12"/>
-                        <circle cx="200" cy="290" r="3" fill="#1d3557" opacity="0.1"/>
-                    </svg>
+                <div class="info-visual reveal" id="infoLogo">
+                    <div class="logo-loading"><div class="spinner"></div></div>
                 </div>
             </div>
         </div>
@@ -1064,43 +899,33 @@
             <div class="section-header reveal">
                 <span class="section-label">Conecte-se</span>
                 <h2 class="section-title">Nossas Redes Sociais</h2>
-                <p class="section-desc">
-                    Acompanhe nossas atividades, notícias e fique por dentro de tudo que acontece na AOS.
-                </p>
+                <p class="section-desc">Acompanhe nossas atividades, notícias e fique por dentro de tudo que acontece na AOS.</p>
             </div>
             <div class="social-grid">
                 <a href="https://www.instagram.com/aospmesp/" target="_blank" class="social-card reveal">
                     <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                     </div>
                     <span class="social-name">Instagram</span>
                     <span class="social-handle">@aospmesp</span>
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=61573265673600" target="_blank" class="social-card reveal">
                     <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </div>
                     <span class="social-name">Facebook</span>
                     <span class="social-handle">AOS PMESP</span>
                 </a>
                 <a href="https://www.youtube.com/@AOSPMESP" target="_blank" class="social-card reveal">
                     <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </div>
                     <span class="social-name">YouTube</span>
                     <span class="social-handle">@AOSPMESP</span>
                 </a>
                 <a href="https://www.linkedin.com/company/associa%C3%A7%C3%A3o-dos-oficiais-de-sa%C3%BAde/?viewAsMember=true" target="_blank" class="social-card reveal">
                     <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                     </div>
                     <span class="social-name">LinkedIn</span>
                     <span class="social-handle">AOS</span>
@@ -1113,9 +938,7 @@
     <section class="cta-section">
         <div class="cta-content reveal">
             <h2 class="cta-title">Faça parte da AOS</h2>
-            <p class="cta-text">
-                Junte-se à Associação dos Oficiais de Saúde e fortaleça a categoria dos profissionais de saúde da PMESP.
-            </p>
+            <p class="cta-text">Junte-se à Associação dos Oficiais de Saúde e fortaleça a categoria dos profissionais de saúde da PMESP.</p>
             <div class="cta-buttons">
                 <a href="https://aos.org.br" target="_blank" class="btn-primary">
                     Conheça a AOS
@@ -1139,13 +962,9 @@
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <svg class="footer-logo" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 8 C100 8, 20 28, 18 78 C16 128, 38 198, 100 226 C162 198, 184 128, 182 78 C180 28, 100 8, 100 8Z" fill="#1d3557"/>
-                    <polygon points="100,14 132,64 100,114 68,64" fill="white"/>
-                    <polygon points="52,88 84,138 52,188 20,138" fill="white"/>
-                    <polygon points="100,114 132,164 100,214 68,164" fill="white"/>
-                    <polygon points="148,88 180,138 148,188 116,138" fill="white"/>
-                </svg>
+                <div class="footer-logo-container" id="footerLogo">
+                    <div class="logo-loading" style="width:55px;height:65px;"><div class="spinner"></div></div>
+                </div>
                 <p>Associação dos Oficiais de Saúde da Polícia Militar do Estado de São Paulo. Compromisso, dedicação e defesa dos profissionais de saúde militar.</p>
             </div>
             <div class="footer-col">
@@ -1171,7 +990,7 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 AOS — Associação dos Oficiais de Saúde da PMESP. Todos os direitos reservados.</p>
-          <a href="https://app-algoritmo.github.io/digital-solutions" 
+            <a href="https://app-algoritmo.github.io/digital-solutions" 
    target="_blank" 
    rel="noopener noreferrer" 
    style="margin: 0 10px; text-decoration: none; color: #D4AF37;">
@@ -1195,28 +1014,120 @@
     </footer>
 
     <script>
+        /**
+         * Carrega o SVG da AOS, remove o fundo e injeta inline
+         * Permite controlar cores e transparência via CSS
+         */
+        async function loadAndInjectSVG(url, targetId, options = {}) {
+            const { size = '200px', darkShield = false } = options;
+            const target = document.getElementById(targetId);
+            if (!target) return;
+
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                // Parse do SVG
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'image/svg+xml');
+                const svgEl = doc.querySelector('svg');
+                
+                if (!svgEl) throw new Error('SVG não encontrado');
+
+                // Remove background/fundo
+                svgEl.querySelectorAll('rect').forEach(rect => {
+                    const w = parseFloat(rect.getAttribute('width') || 0);
+                    const h = parseFloat(rect.getAttribute('height') || 0);
+                    const fill = rect.getAttribute('fill') || '';
+                    // Remove retângulos grandes que são fundo
+                    if (w > 100 || h > 100 || fill === 'white' || fill === '#ffffff' || fill === '#fff' || fill === '#f0f0f0') {
+                        rect.remove();
+                    }
+                });
+
+                // Remove qualquer elemento com classes de background
+                svgEl.querySelectorAll('[class*="background"], [class*="bg"], [class*="fundo"]').forEach(el => el.remove());
+                svgEl.querySelectorAll('[id*="background"], [id*="bg"], [id*="fundo"]').forEach(el => el.remove());
+
+                // Se quiser escudo mais escuro ou manter original
+                if (darkShield) {
+                    svgEl.querySelectorAll('path, polygon').forEach(shape => {
+                        const fill = shape.getAttribute('fill');
+                        if (fill && (fill === '#1d3557' || fill === '#1D3557' || fill.includes('1d3557') || fill.includes('234068'))) {
+                            shape.setAttribute('fill', '#152a45');
+                        }
+                    });
+                }
+
+                // Garante que não há xmlns conflicts
+                svgEl.removeAttribute('xmlns:xlink');
+                
+                // Adiciona atributos para responsividade
+                svgEl.setAttribute('width', '100%');
+                svgEl.setAttribute('height', '100%');
+                svgEl.style.display = 'block';
+
+                // Cria container
+                const container = document.createElement('div');
+                container.className = target.classList.contains('footer-logo-container') ? 'footer-logo-container' : '';
+                container.style.width = targetId === 'footerLogo' ? '55px' : (targetId === 'infoLogo' ? '100%; max-width: 320px' : '200px');
+                if (targetId !== 'footerLogo') {
+                    container.style.maxWidth = targetId === 'infoLogo' ? '320px' : 'none';
+                }
+                container.style.height = 'auto';
+                container.innerHTML = '';
+                container.appendChild(svgEl);
+
+                // Limpa loading e adiciona SVG
+                target.innerHTML = '';
+                target.appendChild(container);
+
+            } catch (error) {
+                console.error('Erro ao carregar SVG:', error);
+                target.innerHTML = `
+                    <div style="text-align:center; padding: 20px; color: rgba(255,255,255,0.7); font-size: 13px;">
+                        <svg width="${targetId === 'footerLogo' ? '55' : '200'}" viewBox="0 0 200 230" style="max-width:100%;">
+                            <path d="M100 10 L190 50 C195 75 193 115 180 160 C165 205 140 240 100 265 C60 240 35 205 20 160 C7 115 5 75 10 50 L100 10Z" fill="#1d3557"/>
+                            <polygon points="100,40 128,85 100,130 72,85" fill="#ffffff"/>
+                            <polygon points="58,108 86,153 58,198 30,153" fill="#ffffff"/>
+                            <polygon points="100,130 128,175 100,220 72,175" fill="#ffffff"/>
+                            <polygon points="142,108 170,153 142,198 114,153" fill="#ffffff"/>
+                            <polygon points="100,180 128,220 100,248 72,220" fill="#ffffff"/>
+                        </svg>
+                    </div>
+                `;
+            }
+        }
+
+        // Carrega o logo em todos os pontos
+        document.addEventListener('DOMContentLoaded', () => {
+            const svgUrl = 'https://aos.org.br/aos.svg';
+            
+            // Hero logo
+            loadAndInjectSVG(svgUrl, 'heroLogo', { size: '200px' });
+            
+            // Info section logo
+            loadAndInjectSVG(svgUrl, 'infoLogo', { size: '320px' });
+            
+            // Footer logo
+            loadAndInjectSVG(svgUrl, 'footerLogo', { size: '55px' });
+        });
+
         // Scroll reveal animation
         const revealElements = document.querySelectorAll('.reveal');
-        
         const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, index * 100);
+                    entry.target.classList.add('visible');
                     revealObserver.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
         revealElements.forEach(el => revealObserver.observe(el));
 
         // Counter animation
         const statNumbers = document.querySelectorAll('.stat-number');
-        
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1239,27 +1150,22 @@
 
         statNumbers.forEach(el => counterObserver.observe(el));
 
-        // Smooth scroll for anchor links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Intranet button pulse animation removal after hover
+        // Intranet button pulse removal
         const intranetBtn = document.getElementById('intranetBtn');
-        intranetBtn.addEventListener('mouseenter', () => {
-            intranetBtn.classList.remove('pulse');
-        });
+        intranetBtn.addEventListener('mouseenter', () => intranetBtn.classList.remove('pulse'));
 
-        // Mobile menu toggle (simple)
+        // Mobile menu
         function toggleMobileMenu() {
             const links = document.querySelector('.top-bar-links');
             if (links.style.display === 'flex') {
@@ -1277,7 +1183,6 @@
             }
         }
 
-        // Reset mobile menu on resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
                 const links = document.querySelector('.top-bar-links');
@@ -1293,7 +1198,7 @@
             }
         });
 
-        // Parallax effect on hero
+        // Parallax on hero
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-content');
