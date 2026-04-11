@@ -576,9 +576,9 @@
 
         .social-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 24px;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
@@ -649,6 +649,116 @@
         }
 
         .social-card:hover .social-handle { color: rgba(255,255,255,0.7); }
+
+        /* Partners Section */
+        .partners-section {
+            padding: 100px 0;
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .partners-track-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        }
+
+        .partners-track {
+            display: flex;
+            gap: 28px;
+            animation: scrollPartners 40s linear infinite;
+            width: max-content;
+        }
+
+        .partners-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollPartners {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .partner-card {
+            flex-shrink: 0;
+            width: 260px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(29,53,87,0.12);
+            border-color: var(--primary);
+        }
+
+        .partner-initials {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s;
+        }
+
+        .partner-card:hover .partner-initials {
+            transform: scale(1.1);
+        }
+
+        .partner-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.3;
+        }
+
+        .partner-desc {
+            font-size: 12px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .partner-visit {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s;
+        }
+
+        .partner-card:hover .partner-visit {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .partner-visit svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
 
         /* CTA Section */
         .cta-section {
@@ -797,6 +907,7 @@
             .info-grid { grid-template-columns: 1fr; gap: 48px; }
             .info-visual { order: -1; }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .partner-card { width: 230px; }
         }
 
         @media (max-width: 768px) {
@@ -812,6 +923,7 @@
             .footer-grid { grid-template-columns: 1fr; gap: 32px; }
             .footer-bottom { flex-direction: column; text-align: center; }
             .hero-cta-group { flex-direction: column; align-items: center; }
+            .partner-card { width: 200px; padding: 24px 18px; }
         }
 
         @media (max-width: 480px) {
@@ -838,6 +950,7 @@
                 <a href="#about">Sobre</a>
                 <a href="#social">Redes Sociais</a>
                 <a href="https://sites.google.com/aos.org.br/aos/intranet" target="_blank">Torne-se um Associado</a>
+                <a href="https://sites.google.com/aos.org.br/aos/intranet" target="_blank">Torne-se um Parceiro</a>
             </div>
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
                 <span></span><span></span><span></span>
@@ -896,7 +1009,7 @@
                 Polícia Militar do Estado de São Paulo — Defendendo os direitos e o bem-estar dos profissionais de saúde da PMESP com dedicação e excelência.
             </p>
             <div class="hero-cta-group">
-                <a href="https://sites.google.com/aos.org.br/aos/p%C3%A1gina-inicial" target="_blank" class="btn-primary">
+                <a href="https://sites.google.com/aos.org.br/aos/eventos" target="_blank" class="btn-primary">
                     Eventos
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -1028,6 +1141,123 @@
                     <span class="social-name">LinkedIn</span>
                     <span class="social-handle">AOS</span>
                 </a>
+                <!-- X (Twitter) -->
+                <a href="https://x.com/home" target="_blank" class="social-card reveal">
+                    <div class="social-icon-wrapper">
+                        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </div>
+                    <span class="social-name">X (Twitter)</span>
+                    <span class="social-handle">@aospmesp</span>
+                </a>
+                <!-- Threads -->
+                <a href="https://www.threads.com/" target="_blank" class="social-card reveal">
+                    <div class="social-icon-wrapper">
+                        <svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.026 3.086.717 5.496 2.055 7.164 1.432 1.783 3.632 2.698 6.542 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.708-.873-1.3-1.673-1.765-.206 1.496-.72 2.61-1.528 3.313-.99.86-2.237 1.154-3.704.873-1.772-.339-3.065-1.507-3.64-3.283-.42-1.297-.335-2.667.25-3.854.568-1.152 1.548-1.966 2.915-2.422 1.49-.497 3.015-.42 4.537.232.312-.913.396-1.742.24-2.436-.317-1.41-1.365-2.448-2.894-2.882l.538-2.038c1.92.545 3.283 1.965 3.744 3.884.244 1.013.194 2.142-.146 3.362.207.155.4.323.585.502 1.055 1.025 1.745 2.378 1.94 3.813.207 1.528-.118 3.087-.915 4.387-.89 1.45-2.382 2.538-4.202 3.063-1.19.343-2.476.516-3.81.516z"/></svg>
+                    </div>
+                    <span class="social-name">Threads</span>
+                    <span class="social-handle">@aospmesp</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners-section" id="partners">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Parceiros</span>
+                <h2 class="section-title">Parceiros Institucionais e Corporativos</h2>
+                <p class="section-desc">Conheça as organizações que caminham conosco na defesa da saúde militar.</p>
+            </div>
+        </div>
+        <div class="partners-track-wrapper">
+            <div class="partners-track" id="partnersTrack">
+                <!-- 7 partners (original) -->
+                <a href="https://portal.crfsp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRF</div>
+                    <div class="partner-name">CRF-SP</div>
+                    <div class="partner-desc">Conselho Regional de Farmácia do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://cremesp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRM</div>
+                    <div class="partner-name">CREMESP</div>
+                    <div class="partner-desc">Conselho Regional de Medicina do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://crmvsp.gov.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRV</div>
+                    <div class="partner-name">CRMV-SP</div>
+                    <div class="partner-desc">Conselho Regional de Medicina Veterinária do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://crosp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRO</div>
+                    <div class="partner-name">CROSP</div>
+                    <div class="partner-desc">Conselho Regional de Odontologia do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://fermesp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">FER</div>
+                    <div class="partner-name">FERMESP</div>
+                    <div class="partner-desc">Federação das Entidades Representantes dos Militares do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://sanitaryintelligence.com/" target="_blank" class="partner-card">
+                    <div class="partner-initials">SI</div>
+                    <div class="partner-name">Sanitary Intelligence</div>
+                    <div class="partner-desc">Life Science</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://ds.barros.no/" target="_blank" class="partner-card">
+                    <div class="partner-initials">DS</div>
+                    <div class="partner-name">Digital Solutions</div>
+                    <div class="partner-desc">Tecnologia e Soluções Digitais</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <!-- Duplicate for infinite scroll -->
+                <a href="https://portal.crfsp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRF</div>
+                    <div class="partner-name">CRF-SP</div>
+                    <div class="partner-desc">Conselho Regional de Farmácia do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://cremesp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRM</div>
+                    <div class="partner-name">CREMESP</div>
+                    <div class="partner-desc">Conselho Regional de Medicina do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://crmvsp.gov.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRV</div>
+                    <div class="partner-name">CRMV-SP</div>
+                    <div class="partner-desc">Conselho Regional de Medicina Veterinária do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://crosp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">CRO</div>
+                    <div class="partner-name">CROSP</div>
+                    <div class="partner-desc">Conselho Regional de Odontologia do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://fermesp.org.br/" target="_blank" class="partner-card">
+                    <div class="partner-initials">FER</div>
+                    <div class="partner-name">FERMESP</div>
+                    <div class="partner-desc">Federação das Entidades Representantes dos Militares do Estado de São Paulo</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://sanitaryintelligence.com/" target="_blank" class="partner-card">
+                    <div class="partner-initials">SI</div>
+                    <div class="partner-name">Sanitary Intelligence</div>
+                    <div class="partner-desc">Life Science</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://ds.barros.no/" target="_blank" class="partner-card">
+                    <div class="partner-initials">DS</div>
+                    <div class="partner-name">Digital Solutions</div>
+                    <div class="partner-desc">Tecnologia e Soluções Digitais</div>
+                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
             </div>
         </div>
     </section>
@@ -1063,7 +1293,7 @@
             </div>
             <div class="footer-col">
                 <h4>Links</h4>
-                 <a href="https://sites.google.com/aos.org.br/aos/parceiros" target="_blank">Parceiros</a>
+                <a href="https://sites.google.com/aos.org.br/aos/parceiros" target="_blank">Parceiros</a>
                 <a href="https://sites.google.com/aos.org.br/aos/intranet" target="_blank">Intranet</a>
                 <a href="#about">Sobre a AOS</a>
                 <a href="#social">Redes Sociais</a>
@@ -1080,7 +1310,7 @@
                 <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Privacidade</a>
                 <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Termos de Uso</a>
                 <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Cookies</a>
-                 <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Estatuto</a>
+                <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Estatuto</a>
             </div>
             <div class="footer-col">
                 <h4>Contato</h4>
