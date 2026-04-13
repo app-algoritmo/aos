@@ -1,1683 +1,355 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOS - Associação dos Oficiais de Saúde da Polícia Militar do Estado de São Paulo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1d3557;
-            --primary-light: #264673;
-            --primary-dark: #152a45;
-            --white: #ffffff;
-            --gray-50: #f8f9fa;
-            --gray-100: #e9ecef;
-            --gray-200: #dee2e6;
-            --gray-300: #ced4da;
-            --gray-600: #6c757d;
-            --gray-800: #343a40;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--white);
-            color: var(--gray-800);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background: var(--primary);
-            padding: 8px 0;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(29, 53, 87, 0.3);
-        }
-
-        .top-bar-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .intranet-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--white);
-            color: var(--primary);
-            padding: 10px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .intranet-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(29,53,87,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .intranet-btn:hover::before { left: 100%; }
-
-        .intranet-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
-            background: #f0f4ff;
-        }
-
-        .intranet-btn svg { width: 18px; height: 18px; transition: transform 0.3s; }
-        .intranet-btn:hover svg { transform: translateX(3px); }
-
-        .top-bar-links { display: flex; gap: 12px; }
-
-        .top-bar-links a {
-            color: rgba(255,255,255,0.85);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 6px 14px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .top-bar-links a:hover {
-            color: var(--white);
-            background: rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.4);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .mobile-menu-btn span {
-            display: block;
-            width: 24px; height: 2px;
-            background: var(--white);
-            margin: 5px 0;
-            transition: all 0.3s;
-            border-radius: 2px;
-        }
-
-        /* Video Section */
-        .video-section {
-            margin-top: 52px;
-            position: relative;
-            width: 100%;
-            height: 65vh;
-            min-height: 450px;
-            max-height: 700px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .video-section video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-        }
-
-        .video-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(13,27,42,0.6) 0%, rgba(29,53,87,0.5) 50%, rgba(13,27,42,0.7) 100%);
-            z-index: 1;
-        }
-
-        .video-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .video-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--white);
-            padding: 18px 32px;
-            border-radius: 16px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            letter-spacing: 0.3px;
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            border: 1px solid rgba(255,255,255,0.2);
-            min-width: 180px;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .video-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .video-btn:hover::before { opacity: 1; }
-
-        .video-btn:hover {
-            transform: translateY(-6px);
-            border-color: rgba(255,255,255,0.5);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            background: rgba(255,255,255,0.2);
-        }
-
-        .video-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s;
-        }
-
-        .video-btn:hover svg { transform: scale(1.15); }
-
-        .video-btn-label {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 80px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 40%, var(--primary-light) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%; right: -20%;
-            width: 800px; height: 800px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%; left: -10%;
-            width: 600px; height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
-            animation: float 15s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(30px,-30px) scale(1.05); }
-            66% { transform: translate(-20px,20px) scale(0.95); }
-        }
-
-        .hero-grid-bg {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 40px 24px;
-            max-width: 900px;
-        }
-
-        .logo-container {
-            margin-bottom: 40px;
-            animation: fadeInDown 1s ease-out;
-            display: flex;
-            justify-content: center;
-        }
-
-        .logo-img {
-            width: 200px;
-            height: auto;
-            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.3));
-            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
-        }
-
-        .logo-img:hover { transform: scale(1.05); }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 5vw, 52px);
-            font-weight: 900;
-            color: var(--white);
-            line-height: 1.15;
-            margin-bottom: 16px;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(14px, 2vw, 18px);
-            color: rgba(255,255,255,0.75);
-            font-weight: 400;
-            line-height: 1.7;
-            margin-bottom: 48px;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-cta-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--white);
-            color: var(--primary);
-            padding: 16px 36px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: transparent;
-            color: var(--white);
-            padding: 16px 36px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.6);
-            transform: translateY(-3px);
-        }
-
-        /* About Section */
-        .about { padding: 100px 24px; background: var(--white); }
-        .container { max-width: 1200px; margin: 0 auto; }
-
-        .section-header { text-align: center; margin-bottom: 64px; }
-
-        .section-label {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: var(--white);
-            padding: 6px 20px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 4vw, 44px);
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-
-        .section-desc {
-            font-size: 17px;
-            color: var(--gray-600);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-
-        .feature-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 20px;
-            padding: 40px 32px;
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            transform: scaleX(0);
-            transition: transform 0.4s;
-            transform-origin: left;
-        }
-
-        .feature-card:hover::before { transform: scaleX(1); }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(29,53,87,0.12);
-            border-color: transparent;
-        }
-
-        .feature-icon {
-            width: 56px; height: 56px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover .feature-icon { transform: scale(1.1) rotate(-5deg); }
-
-        .feature-icon svg {
-            width: 28px; height: 28px;
-            stroke: var(--white);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .feature-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .feature-text {
-            font-size: 15px;
-            color: var(--gray-600);
-            line-height: 1.7;
-        }
-
-        /* Info Section */
-        .info-section { padding: 100px 24px; background: var(--white); }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-            align-items: center;
-        }
-
-        .info-content h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(24px, 3vw, 36px);
-            color: var(--primary);
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-
-        .info-content p {
-            font-size: 16px;
-            color: var(--gray-600);
-            line-height: 1.8;
-            margin-bottom: 16px;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 24px 16px;
-            background: var(--gray-50);
-            border-radius: 16px;
-            transition: all 0.3s;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(29,53,87,0.08);
-        }
-
-        .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            font-weight: 900;
-            color: var(--primary);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--gray-600);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .info-visual {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .info-visual img {
-            width: 100%;
-            max-width: 320px;
-            height: auto;
-            filter: drop-shadow(0 20px 40px rgba(29,53,87,0.15));
-        }
-
-        /* Social Section */
-        .social-section {
-            padding: 100px 24px;
-            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .social-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            background: var(--white);
-            border: 2px solid var(--gray-200);
-            border-radius: 20px;
-            padding: 40px 24px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--primary);
-            opacity: 0;
-            transition: opacity 0.4s;
-            border-radius: 18px;
-        }
-
-        .social-card:hover::after { opacity: 1; }
-
-        .social-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px rgba(29,53,87,0.2);
-        }
-
-        .social-card > * { position: relative; z-index: 1; }
-
-        .social-icon-wrapper {
-            width: 64px; height: 64px;
-            border-radius: 50%;
-            background: var(--gray-50);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s;
-        }
-
-        .social-card:hover .social-icon-wrapper { background: rgba(255,255,255,0.2); }
-
-        .social-icon-wrapper svg { width: 30px; height: 30px; fill: var(--primary); transition: fill 0.4s; }
-        .social-card:hover .social-icon-wrapper svg { fill: var(--white); }
-
-        .social-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            transition: color 0.4s;
-        }
-
-        .social-card:hover .social-name { color: var(--white); }
-
-        .social-handle {
-            font-size: 13px;
-            color: var(--gray-600);
-            transition: color 0.4s;
-        }
-
-        .social-card:hover .social-handle { color: rgba(255,255,255,0.7); }
-
-        /* Partners Section */
-        .partners-section {
-            padding: 100px 0;
-            background: var(--white);
-            overflow: hidden;
-        }
-
-        .partners-track-wrapper {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-            -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-        }
-
-        .partners-track {
-            display: flex;
-            gap: 28px;
-            animation: scrollPartners 40s linear infinite;
-            width: max-content;
-        }
-
-        .partners-track:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes scrollPartners {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .partner-card {
-            flex-shrink: 0;
-            width: 260px;
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 32px 24px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 16px;
-        }
-
-        .partner-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 48px rgba(29,53,87,0.12);
-            border-color: var(--primary);
-        }
-
-        .partner-initials {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            transition: transform 0.3s;
-        }
-
-        .partner-card:hover .partner-initials {
-            transform: scale(1.1);
-        }
-
-        .partner-name {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.3;
-        }
-
-        .partner-desc {
-            font-size: 12px;
-            color: var(--gray-600);
-            line-height: 1.5;
-        }
-
-        .partner-visit {
-            font-size: 12px;
-            color: var(--primary);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: all 0.3s;
-        }
-
-        .partner-card:hover .partner-visit {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .partner-visit svg {
-            width: 14px;
-            height: 14px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-        }
-
-        /* YouTube Section */
-        .youtube-section {
-            padding: 100px 24px;
-            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
-        }
-
-        .youtube-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .youtube-video {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(29,53,87,0.15);
-            margin-bottom: 32px;
-            background: var(--gray-100);
-        }
-
-        .youtube-video iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .youtube-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--primary);
-            color: var(--white);
-            padding: 16px 36px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            box-shadow: 0 8px 30px rgba(29,53,87,0.25);
-        }
-
-        .youtube-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(29,53,87,0.35);
-            background: var(--primary-light);
-        }
-
-        .youtube-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-            transition: transform 0.3s;
-        }
-
-        .youtube-btn:hover svg { transform: scale(1.15); }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 100px 24px;
-            background: var(--white);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: stretch;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
-
-        .contact-item {
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-            padding: 24px;
-            background: var(--gray-50);
-            border-radius: 16px;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .contact-item:hover {
-            border-color: var(--primary);
-            transform: translateX(4px);
-            box-shadow: 0 8px 24px rgba(29,53,87,0.08);
-        }
-
-        .contact-icon {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-icon svg {
-            width: 22px;
-            height: 22px;
-            stroke: var(--white);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .contact-details h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .contact-details p {
-            font-size: 14px;
-            color: var(--gray-600);
-            line-height: 1.6;
-        }
-
-        .contact-details a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .contact-details a:hover {
-            color: var(--primary-light);
-            text-decoration: underline;
-        }
-
-        .contact-map {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 16px 48px rgba(29,53,87,0.12);
-            min-height: 400px;
-            border: 1px solid var(--gray-200);
-        }
-
-        .contact-map iframe {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-            border: none;
-            display: block;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 100px 24px;
-            background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
-        }
-
-        .cta-content { position: relative; z-index: 1; }
-
-        .cta-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 4vw, 44px);
-            color: var(--white);
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-
-        .cta-text {
-            font-size: 17px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 40px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.7;
-        }
-
-        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-
-        /* Footer */
-        .footer { background: #0d1b2a; color: rgba(255,255,255,0.6); padding: 60px 24px 30px; }
-
-        .footer-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            gap: 36px;
-            margin-bottom: 48px;
-        }
-
-        .footer-brand .footer-logo {
-            width: 55px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; }
-
-        .footer-col h4 {
-            color: var(--white);
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 20px;
-        }
-
-        .footer-col a {
-            display: block;
-            color: rgba(255,255,255,0.5);
-            text-decoration: none;
-            font-size: 14px;
-            padding: 6px 0;
-            transition: all 0.3s;
-        }
-
-        .footer-col a:hover { color: var(--white); transform: translateX(4px); }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .footer-bottom p { font-size: 13px; }
-
-        .footer-social-links { display: flex; gap: 12px; }
-
-        .footer-social-links a {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .footer-social-links a:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-social-links a svg {
-            width: 18px; height: 18px;
-            fill: rgba(255,255,255,0.6);
-            transition: fill 0.3s;
-        }
-
-        .footer-social-links a:hover svg { fill: var(--white); }
-
-        /* Reveal Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
-            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-        }
-
-        .intranet-btn.pulse { animation: pulse-ring 2s infinite; }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .video-section { height: 55vh; min-height: 380px; }
-            .video-btn { padding: 14px 24px; font-size: 14px; min-width: 160px; }
-            .info-grid { grid-template-columns: 1fr; gap: 48px; }
-            .info-visual { order: -1; }
-            .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-            .partner-card { width: 230px; }
-            .contact-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 768px) {
-            .top-bar-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .video-section { height: 50vh; min-height: 320px; }
-            .video-content { gap: 12px; }
-            .video-btn { padding: 14px 20px; font-size: 13px; min-width: 140px; }
-            .features-grid { grid-template-columns: 1fr; }
-            .social-grid { grid-template-columns: 1fr 1fr; }
-            .stats-row { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-            .stat-number { font-size: 28px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-            .footer-bottom { flex-direction: column; text-align: center; }
-            .hero-cta-group { flex-direction: column; align-items: center; }
-            .partner-card { width: 200px; padding: 24px 18px; }
-            .contact-map { min-height: 300px; }
-            .contact-map iframe { min-height: 300px; }
-        }
-
-        @media (max-width: 480px) {
-            .social-grid { grid-template-columns: 1fr; }
-            .logo-img { width: 150px; }
-            .video-section { height: 45vh; min-height: 280px; }
-            .video-btn { min-width: 130px; padding: 12px 16px; font-size: 12px; }
-        }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AOS — Em Manutenção</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      background: #1d3557;
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 20%, rgba(26,82,150,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(232,148,90,0.12) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    /* Top bar – Intranet link */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      background: rgba(29,53,87,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(232,148,90,0.25);
+    }
+
+    .intranet-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #e8945a;
+      text-decoration: none;
+      padding: 0.45rem 1.2rem;
+      border-radius: 100px;
+      border: 1px solid rgba(232,148,90,0.4);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, color 0.2s;
+    }
+
+    .intranet-link:hover {
+      background: rgba(232,148,90,0.12);
+      border-color: rgba(232,148,90,0.7);
+      color: #f5a66d;
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .intranet-link svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3.5rem 0.5rem 0.5rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #e8945a;
+      border: 1px solid rgba(232,148,90,0.4);
+      border-radius: 100px;
+      padding: 0.35rem 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 1.4rem;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 1.8rem auto;
+    }
+    .divider-line {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,148,90,0.6));
+    }
+    .divider-line.rev {
+      background: linear-gradient(90deg, rgba(232,148,90,0.6), transparent);
+    }
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      background: #e8945a;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .message {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.72);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.8rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 0.9rem 1.8rem;
+      min-width: 300px;
+      justify-content: flex-start;
+      transition: background 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .contact-item:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(232,148,90,0.5);
+      text-decoration: none;
+    }
+
+    .contact-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: #e8945a;
+    }
+
+    .contact-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      display: block;
+      text-align: left;
+      margin-bottom: 2px;
+    }
+
+    .contact-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #ffffff;
+      display: block;
+      text-align: left;
+    }
+
+    .btn-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #e8945a;
+      color: #fff;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.9rem 2.2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-email:hover {
+      background: #d4804a;
+      transform: translateY(-2px);
+    }
+
+    .btn-email svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .footer-text {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.22);
+      margin-top: 3rem;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 520px) {
+      .contact-item {
+        min-width: unset;
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="top-bar-inner">
-            <a href="https://sites.google.com/aos.org.br/aos/intranet" target="_blank" class="intranet-btn pulse" id="intranetBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                Intranet
-            </a>
-            <div class="top-bar-links">
-                <a href="#about">Sobre</a>
-                <a href="https://sites.google.com/aos.org.br/aos/equipe" target="_blank">Equipe</a>
-                <a href="#social">Redes Sociais</a>
-                <a href="#partners">Parceiros</a>
-                <a href="https://forms.gle/CtnQ57RKfyGwvFmL9" target="_blank">Torne-se um Associado</a>
-                <a href="#contato">Contato</a>
-            </div>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
+<!-- Top bar com link Intranet -->
+<nav class="top-bar">
+  <a href="https://mail.google.com/a/aos.org.br" target="_blank" class="intranet-link">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
+      <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+      <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+      <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+      <rect x="11" y="11" width="7" height="7" rx="1.5"/>
+    </svg>
+    Intranet
+  </a>
+</nav>
+
+<div class="card">
+
+  <div class="tag">Associação dos Oficiais de Saúde &middot; PMESP</div>
+
+  <h1>Nosso site est&aacute;<br/>em manuten&ccedil;&atilde;o.</h1>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line rev"></div>
+  </div>
+
+  <p class="message">
+    Estamos trabalhando para oferecer uma experi&ecirc;ncia ainda melhor.
+    Em breve estaremos de volta. Para informa&ccedil;&otilde;es, d&uacute;vidas
+    ou contato com a associa&ccedil;&atilde;o, utilize os canais abaixo.
+  </p>
+
+  <div class="contacts">
+
+    <!-- Card e-mail — preenchido pelo JS -->
+    <div class="contact-item" id="card-email" style="cursor:pointer;">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="1" y="4" width="18" height="13" rx="2"/>
+        <polyline points="1,5 10,11.5 19,5"/>
+      </svg>
+      <div>
+        <span class="contact-label">E-mail</span>
+        <span class="contact-value" id="email-display"></span>
+      </div>
     </div>
 
-    <!-- Video Section -->
-    <section class="video-section">
-        <video autoplay muted loop playsinline poster="">
-            <source src="https://app-algoritmo.github.io/aos/video.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-        <div class="video-content">
-            <a href="https://sites.google.com/aos.org.br/aos/eventos" target="_blank" class="video-btn">
-                <svg viewBox="0 0 24 24">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                <span class="video-btn-label">Eventos</span>
-            </a>
-            <a href="https://sites.google.com/aos.org.br/aos/comunicados" target="_blank" class="video-btn">
-                <svg viewBox="0 0 24 24">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                </svg>
-                <span class="video-btn-label">Comunicados</span>
-            </a>
-            <a href="https://sites.google.com/aos.org.br/aos/cient%C3%ADfico" target="_blank" class="video-btn">
-                <svg viewBox="0 0 24 24">
-                    <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
-                </svg>
-                <span class="video-btn-label">Científico</span>
-            </a>
-            <a href="https://sites.google.com/aos.org.br/aos/jur%C3%ADdico" target="_blank" class="video-btn">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
-                </svg>
-                <span class="video-btn-label">Jurídico</span>
-            </a>
-        </div>
-    </section>
+    <!-- Telefone fixo — não tem texto de e-mail, sem risco -->
+    <a href="tel:+551122817648" class="contact-item">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M3 2.5 L6 2.5 L7.5 6.5 L5.5 8 C6.5 10 8.5 12 10.5 13 L12 11 L16 12.5 L16 15.5 C16 16 15.5 16.5 15 16.5 C8 16.5 3 11 3 4 C3 3.5 3.5 2.5 3 2.5 Z"/>
+      </svg>
+      <div>
+        <span class="contact-label">Telefone</span>
+        <span class="contact-value">(11) 2281-7648</span>
+      </div>
+    </a>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="hero-content">
-            <div class="logo-container">
-                <img src="https://app-algoritmo.github.io/aos/logo.png" alt="Logo AOS" class="logo-img">
-            </div>
-            <h1 class="hero-title">Associação dos Oficiais de Saúde</h1>
-            <p class="hero-subtitle">
-                Polícia Militar do Estado de São Paulo — Defendendo os direitos e o bem-estar dos profissionais de saúde da PMESP com dedicação e excelência.
-            </p>
-            <div class="hero-cta-group">
-                <a href="https://sites.google.com/aos.org.br/aos/eventos" target="_blank" class="btn-primary">
-                    Eventos
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="16" y1="2" x2="16" y2="6"/>
-                        <line x1="8" y1="2" x2="8" y2="6"/>
-                        <line x1="3" y1="10" x2="21" y2="10"/>
-                    </svg>
-                </a>
-                <a href="#about" class="btn-secondary">
-                    Saiba mais
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"/>
-                        <polyline points="19 12 12 19 5 12"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- WhatsApp -->
+    <a href="https://wa.me/5511943284965" target="_blank" class="contact-item">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
+        <circle cx="10" cy="10" r="8.5"/>
+        <path d="M6.5 7.5 C7 6 8.5 5.5 9.5 6.5 L10.5 7.8 C11 8.4 10.8 9.2 10.3 9.7 L9.8 10.2 C10.2 11 11 12 11.8 12.5 L12.3 12 C12.8 11.5 13.6 11.3 14.2 11.8 L15.5 12.8 C16.5 13.8 16 15.3 14.5 15.8 C11 17 6.5 13 6.5 9.5 C6.5 8.8 6.5 8.1 6.5 7.5 Z"/>
+      </svg>
+      <div>
+        <span class="contact-label">WhatsApp</span>
+        <span class="contact-value">(11) 94328-4965</span>
+      </div>
+    </a>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-label">Quem Somos</span>
-                <h2 class="section-title">Compromisso com a Saúde Militar</h2>
-                <p class="section-desc">
-                    A AOS representa e defende os interesses dos oficiais de saúde da Polícia Militar do Estado de São Paulo e profissionais da saúde civis que buscam rigor técnico, ética e networking de alto impacto.
-                </p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                    </div>
-                    <h3 class="feature-title">Defesa Profissional</h3>
-                    <p class="feature-text">Representamos ativamente os oficiais de saúde da PMESP, garantindo direitos, benefícios e condições dignas de trabalho.</p>
-                </div>
-                <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Rede de Associados</h3>
-                    <p class="feature-text">Fortalecemos os laços entre os profissionais de saúde militar, promovendo integração, eventos e suporte mútuo.</p>
-                </div>
-                <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="3" y1="9" x2="21" y2="9"/>
-                            <line x1="9" y1="21" x2="9" y2="9"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Formação Contínua</h3>
-                    <p class="feature-text">Incentivamos a atualização profissional com cursos, palestras e capacitações na área de saúde militar.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  </div>
 
-    <!-- Info Section -->
-    <section class="info-section">
-        <div class="container">
-            <div class="info-grid">
-                <div class="info-content reveal">
-                    <h3>Uma história de dedicação à saúde da PMESP</h3>
-                    <p>A Associação dos Oficiais de Saúde da Polícia Militar do Estado de São Paulo (AOS) foi fundada em 1951 com o propósito de unir e fortalecer a categoria dos profissionais de saúde que atuam na corporação.</p>
-                   <p>Com orgulho, mantemos nossa sede própria em São Paulo, um espaço dedicado ao suporte de nossos membros e ao fortalecimento da nossa categoria.</p>
-                    <p>Trabalhamos incansavelmente para garantir melhores condições de trabalho, valorização profissional e suporte jurídico aos nossos associados.</p>
-                    <div class="stats-row">
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="500">0</div>
-                            <div class="stat-label">Associados+</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="50">0</div>
-                            <div class="stat-label">Anos de história+</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="15">0</div>
-                            <div class="stat-label">Eventos/Ano+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-visual reveal">
-                    <img src="https://app-algoritmo.github.io/aos/logo.png" alt="Logo AOS" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Botão principal — preenchido pelo JS -->
+  <button class="btn-email" id="btn-enviar">
+    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="1" y="3.5" width="16" height="11" rx="2"/>
+      <polyline points="1,4.5 9,10.5 17,4.5"/>
+    </svg>
+    Enviar mensagem &agrave; AOS
+  </button>
 
-    <!-- Social Section -->
-    <section class="social-section" id="social">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-label">Conecte-se</span>
-                <h2 class="section-title">Nossas Redes Sociais</h2>
-                <p class="section-desc">Acompanhe nossas atividades, notícias e fique por dentro de tudo que acontece na AOS.</p>
-            </div>
-            <div class="social-grid">
-                <a href="https://www.instagram.com/aospmesp/" target="_blank" class="social-card reveal">
-                    <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                    <span class="social-name">Instagram</span>
-                    <span class="social-handle">@aospmesp</span>
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=61573265673600" target="_blank" class="social-card reveal">
-                    <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </div>
-                    <span class="social-name">Facebook</span>
-                    <span class="social-handle">AOS PMESP</span>
-                </a>
-                <a href="https://www.youtube.com/@AOSPMESP" target="_blank" class="social-card reveal">
-                    <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </div>
-                    <span class="social-name">YouTube</span>
-                    <span class="social-handle">@AOSPMESP</span>
-                </a>
-                <a href="https://www.linkedin.com/company/associa%C3%A7%C3%A3o-dos-oficiais-de-sa%C3%BAde/?viewAsMember=true" target="_blank" class="social-card reveal">
-                    <div class="social-icon-wrapper">
-                        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    </div>
-                    <span class="social-name">LinkedIn</span>
-                    <span class="social-handle">AOS</span>
-                </a>
-            </div>
-        </div>
-    </section>
+  <p class="footer-text">
+    &copy; 2026 AOS &mdash; Associa&ccedil;&atilde;o dos Oficiais de Sa&uacute;de da PMESP &nbsp;&middot;&nbsp; S&atilde;o Paulo / SP
+  </p>
 
-    <!-- Partners Section -->
-    <section class="partners-section" id="partners">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-label">Parceiros</span>
-                <h2 class="section-title">Parceiros Institucionais e Corporativos</h2>
-                <p class="section-desc">Conheça as organizações que caminham conosco na defesa da saúde militar.</p>
-            </div>
-        </div>
-        <div class="partners-track-wrapper">
-            <div class="partners-track" id="partnersTrack">
-                <a href="https://portal.crfsp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRF</div>
-                    <div class="partner-name">CRF-SP</div>
-                    <div class="partner-desc">Conselho Regional de Farmácia do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://cremesp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRM</div>
-                    <div class="partner-name">CREMESP</div>
-                    <div class="partner-desc">Conselho Regional de Medicina do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://crmvsp.gov.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRV</div>
-                    <div class="partner-name">CRMV-SP</div>
-                    <div class="partner-desc">Conselho Regional de Medicina Veterinária do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://crosp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRO</div>
-                    <div class="partner-name">CROSP</div>
-                    <div class="partner-desc">Conselho Regional de Odontologia do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://fermesp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">FER</div>
-                    <div class="partner-name">FERMESP</div>
-                    <div class="partner-desc">Federação das Entidades Representantes dos Militares do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://sanitaryintelligence.com/" target="_blank" class="partner-card">
-                    <div class="partner-initials">SI</div>
-                    <div class="partner-name">Sanitary Intelligence</div>
-                    <div class="partner-desc">Life Science</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://ds.barros.no/" target="_blank" class="partner-card">
-                    <div class="partner-initials">DS</div>
-                    <div class="partner-name">Digital Solutions</div>
-                    <div class="partner-desc">Tecnologia e Soluções Digitais</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://grazzioli.com.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">G&M</div>
-                    <div class="partner-name">Grazzoli & Magri</div>
-                    <div class="partner-desc">Advogados</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <!-- Duplicate for infinite scroll -->
-                <a href="https://portal.crfsp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRF</div>
-                    <div class="partner-name">CRF-SP</div>
-                    <div class="partner-desc">Conselho Regional de Farmácia do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://cremesp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRM</div>
-                    <div class="partner-name">CREMESP</div>
-                    <div class="partner-desc">Conselho Regional de Medicina do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://crmvsp.gov.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRV</div>
-                    <div class="partner-name">CRMV-SP</div>
-                    <div class="partner-desc">Conselho Regional de Medicina Veterinária do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://crosp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">CRO</div>
-                    <div class="partner-name">CROSP</div>
-                    <div class="partner-desc">Conselho Regional de Odontologia do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://fermesp.org.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">FER</div>
-                    <div class="partner-name">FERMESP</div>
-                    <div class="partner-desc">Federação das Entidades Representantes dos Militares do Estado de São Paulo</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://sanitaryintelligence.com/" target="_blank" class="partner-card">
-                    <div class="partner-initials">SI</div>
-                    <div class="partner-name">Sanitary Intelligence</div>
-                    <div class="partner-desc">Life Science</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://ds.barros.no/" target="_blank" class="partner-card">
-                    <div class="partner-initials">DS</div>
-                    <div class="partner-name">Digital Solutions</div>
-                    <div class="partner-desc">Tecnologia e Soluções Digitais</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-                <a href="https://grazzioli.com.br/" target="_blank" class="partner-card">
-                    <div class="partner-initials">G&M</div>
-                    <div class="partner-name">Grazzoli & Magri</div>
-                    <div class="partner-desc">Advogados</div>
-                    <span class="partner-visit">Visitar site <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-                </a>
-            </div>
-        </div>
-    </section>
+</div>
 
-    <!-- YouTube Section -->
-    <section class="youtube-section" id="youtube">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-label">Vídeos</span>
-                <h2 class="section-title">Canal no YouTube</h2>
-                <p class="section-desc">Confira nossos vídeos, eventos e conteúdos sobre saúde militar e bem-estar.</p>
-            </div>
-            <div class="youtube-wrapper reveal">
-                <div class="youtube-video">
-                    <iframe src="https://www.youtube.com/embed/uDGDccWRpss" title="AOS PMESP YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                </div>
-                <a href="https://www.youtube.com/@AOSPMESP" target="_blank" class="youtube-btn">
-                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    Visite nosso canal no YouTube
-                </a>
-            </div>
-        </div>
-    </section>
+<script>
+  // Monta o endereço em partes — o Cloudflare não consegue interceptar variáveis JS
+  (function () {
+    var u = ['a', 'o', 's'];
+    var d = ['a', 'o', 's', '.', 'o', 'r', 'g', '.', 'b', 'r'];
+    var addr = u.join('') + '@' + d.join('');
+    var subj = 'Contato pelo site da AOS';
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contato">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-label">Contato</span>
-                <h2 class="section-title">Entre em Contato</h2>
-                <p class="section-desc">Estamos à disposição para atendê-lo. Entre em contato por telefone, e-mail ou visite nossa sede.</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info reveal">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Telefones</h4>
-                            <p><a href="tel:+551122817648">+55 (11) 2281-7648</a></p>
-                            <p><a href="https://wa.me/551194328465" target="_blank">WhatsApp: (11) 94328-465</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        </div>
-                        <div class="contact-details">
-                            <h4>E-mail</h4>
-                            <p><a href="mailto:aos@aos.org.br">aos@aos.org.br</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Horário de Atendimento</h4>
-                            <p>Segunda à Sexta: 9h às 13h</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Endereço</h4>
-                            <p>Rua Conselheiro Saraiva, 306, conj. 74<br>Santana — São Paulo/SP</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-map reveal">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1!2d-46.6298!3d-23.5052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMwJzE4LjgiUyA0NsKwMzcnNDcuMyJX!5e0!3m2!1spt-BR!2sbr!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
+    // Preenche o texto visível no card
+    var display = document.getElementById('email-display');
+    if (display) display.textContent = addr;
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-content reveal">
-            <h2 class="cta-title">Faça parte da AOS</h2>
-            <p class="cta-text">Junte-se à Associação dos Oficiais de Saúde e fortaleça a categoria dos profissionais de saúde da PMESP.</p>
-            <div class="cta-buttons">
-                <a href="https://sites.google.com/aos.org.br/aos/benef%C3%ADcios" target="_blank" class="btn-primary">
-                    Benefícios
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                </a>
-                <a href="https://sites.google.com/aos.org.br/aos/eventos" target="_blank" class="btn-secondary">
-                    Destaques
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
+    // Função que abre o cliente de e-mail
+    function abrirEmail() {
+      window.location.href = 'mai' + 'lto:' + addr + '?subject=' + encodeURIComponent(subj);
+    }
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <img src="https://app-algoritmo.github.io/aos/logo.png" alt="Logo AOS" class="footer-logo" loading="lazy">
-                <p>Associação dos Oficiais de Saúde da Polícia Militar do Estado de São Paulo. Compromisso, dedicação e defesa dos profissionais de saúde militar.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Links</h4>
-                <a href="#partners">Parceiros</a>
-                <a href="https://sites.google.com/aos.org.br/aos/intranet" target="_blank">Intranet</a>
-                <a href="#about">Sobre a AOS</a>
-                <a href="#social">Redes Sociais</a>
-            </div>
-            <div class="footer-col">
-                <h4>Redes Sociais</h4>
-                <a href="https://www.instagram.com/aospmesp/" target="_blank">Instagram</a>
-                <a href="https://www.facebook.com/profile.php?id=61573265673600" target="_blank">Facebook</a>
-                <a href="https://www.youtube.com/@AOSPMESP" target="_blank">YouTube</a>
-                <a href="https://www.linkedin.com/company/associa%C3%A7%C3%A3o-dos-oficiais-de-sa%C3%BAde/?viewAsMember=true" target="_blank">LinkedIn</a>
-            </div>
-            <div class="footer-col">
-                <h4>Políticas</h4>
-                <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Privacidade</a>
-                <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Termos de Uso</a>
-                <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Cookies</a>
-                <a href="https://sites.google.com/aos.org.br/aos/pol%C3%ADticas" target="_blank">Estatuto</a>
-            </div>
-            <div class="footer-col">
-                <h4>Contato</h4>
-                <a href="mailto:aos@aos.org.br">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    aos@aos.org.br
-                </a>
-                <a href="tel:+551122817648">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    (11) 2281-7648
-                </a>
-                <a href="https://wa.me/551194328465" target="_blank">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 6px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    (11) 94328-465
-                </a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 1951-2026 AOS — Associação dos Oficiais de Saúde da PMESP. Todos os direitos reservados.</p>
-            <a href="https://app-algoritmo.github.io/digital-solutions" target="_blank" rel="noopener noreferrer" style="margin: 0 10px; text-decoration: none; color: #41d773;">
-                Developed by Digital Solutions
-            </a>
-            <div class="footer-social-links">
-                <a href="https://www.instagram.com/aospmesp/" target="_blank" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=61573265673600" target="_blank" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
-                <a href="https://www.youtube.com/@AOSPMESP" target="_blank" aria-label="YouTube">
-                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </a>
-                <a href="https://www.linkedin.com/company/associa%C3%A7%C3%A3o-dos-oficiais-de-sa%C3%BAde/?viewAsMember=true" target="_blank" aria-label="LinkedIn">
-                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                </a>
-            </div>
-        </div>
-    </footer>
+    // Card de e-mail clicável
+    var card = document.getElementById('card-email');
+    if (card) card.addEventListener('click', abrirEmail);
 
-    <script>
-        // Scroll reveal animation
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    // Botão principal
+    var btn = document.getElementById('btn-enviar');
+    if (btn) btn.addEventListener('click', abrirEmail);
+  })();
+</script>
 
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // Counter animation
-        const statNumbers = document.querySelectorAll('.stat-number');
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const target = parseInt(entry.target.getAttribute('data-target'));
-                    let current = 0;
-                    const increment = target / 60;
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= target) {
-                            entry.target.textContent = target + '+';
-                            clearInterval(timer);
-                        } else {
-                            entry.target.textContent = Math.floor(current);
-                        }
-                    }, 25);
-                    counterObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statNumbers.forEach(el => counterObserver.observe(el));
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Intranet button pulse removal
-        const intranetBtn = document.getElementById('intranetBtn');
-        intranetBtn.addEventListener('mouseenter', () => intranetBtn.classList.remove('pulse'));
-
-        // Mobile menu
-        function toggleMobileMenu() {
-            const links = document.querySelector('.top-bar-links');
-            if (links.style.display === 'flex') {
-                links.style.display = 'none';
-            } else {
-                links.style.display = 'flex';
-                links.style.flexDirection = 'column';
-                links.style.position = 'absolute';
-                links.style.top = '100%';
-                links.style.left = '0';
-                links.style.right = '0';
-                links.style.background = 'var(--primary)';
-                links.style.padding = '16px 24px';
-                links.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
-            }
-        }
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                const links = document.querySelector('.top-bar-links');
-                links.style.display = '';
-                links.style.flexDirection = '';
-                links.style.position = '';
-                links.style.top = '';
-                links.style.left = '';
-                links.style.right = '';
-                links.style.background = '';
-                links.style.padding = '';
-                links.style.boxShadow = '';
-            }
-        });
-
-        // Parallax on hero
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-content');
-            if (hero && scrolled < window.innerHeight) {
-                hero.style.transform = `translateY(${scrolled * 0.15}px)`;
-                hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
-            }
-        });
-    </script>
 </body>
 </html>
-
