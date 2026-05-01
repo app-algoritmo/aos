@@ -1154,6 +1154,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .intranet-btn { padding: 8px 16px; font-size: 12px; }
             .intranet-btn svg { width: 16px; height: 16px; }
         }
+
+        /* ── Cookie Banner AOS ── */
+        #cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;font-family:'Inter','Segoe UI',sans-serif;transform:translateY(100%);transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);}
+        #cookie-banner.visible{transform:translateY(0);}
+        .cb-inner{background:#0d1b2a;border-top:2px solid #1d3557;color:#e2e8f0;padding:20px 28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;box-shadow:0 -8px 32px rgba(0,0,0,0.4);}
+        .cb-logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+        .cb-logo img{width:32px;height:32px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9;}
+        .cb-logo-text{font-family:'Playfair Display','Georgia',serif;font-size:13px;font-weight:700;color:#fff;line-height:1.2;}
+        .cb-logo-sub{font-size:9px;color:#4a90d9;text-transform:uppercase;letter-spacing:.1em;display:block;}
+        .cb-text{flex:1;min-width:240px;}
+        .cb-text strong{display:block;font-size:13px;color:#7eb8f7;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;font-weight:600;}
+        .cb-text p{margin:0;font-size:12.5px;line-height:1.65;color:#94a3b8;}
+        .cb-text a{color:#7eb8f7;text-decoration:underline;text-underline-offset:2px;}
+        .cb-text a:hover{color:#a8d4ff;}
+        .cb-toggles{display:flex;gap:20px;flex-wrap:wrap;align-items:center;}
+        .cb-toggle-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#94a3b8;cursor:pointer;user-select:none;}
+        .cb-toggle-item input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:36px;height:20px;background:#1e3a5f;border-radius:20px;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;border:1px solid #2a4a7f;}
+        .cb-toggle-item input[type="checkbox"]:checked{background:#1d3557;border-color:#4a90d9;}
+        .cb-toggle-item input[type="checkbox"]::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:#94a3b8;border-radius:50%;transition:left .25s,background .25s;}
+        .cb-toggle-item input[type="checkbox"]:checked::after{left:18px;background:#4a90d9;}
+        .cb-toggle-item.disabled{opacity:.5;cursor:not-allowed;}
+        .cb-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+        .cb-btn{padding:9px 20px;border:none;border-radius:6px;font-size:12px;font-family:'Inter','Segoe UI',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;font-weight:600;}
+        .cb-btn-accept{background:#1d3557;color:#fff;border:1px solid #4a90d9;}
+        .cb-btn-accept:hover{background:#264673;box-shadow:0 4px 16px rgba(74,144,217,.3);}
+        .cb-btn-save{background:transparent;color:#7eb8f7;border:1px solid #2a4a7f;}
+        .cb-btn-save:hover{background:rgba(29,53,87,.4);border-color:#4a90d9;}
+        .cb-btn-reject{background:transparent;color:#64748b;border:1px solid #1e3a5f;font-size:11px;padding:8px 14px;}
+        .cb-btn-reject:hover{color:#94a3b8;border-color:#2a4a7f;}
+        #cookie-prefs-link{position:fixed;bottom:16px;left:16px;z-index:9998;background:#0d1b2a;border:1px solid #1d3557;color:#7eb8f7;font-family:'Inter','Segoe UI',sans-serif;font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;display:none;transition:all .2s;font-weight:500;}
+        #cookie-prefs-link:hover{background:rgba(29,53,87,.5);border-color:#4a90d9;color:#a8d4ff;}
+        @media(max-width:640px){.cb-inner{flex-direction:column;align-items:flex-start;padding:16px 18px;gap:16px;}.cb-logo{display:none;}.cb-actions{width:100%;}.cb-btn-accept{flex:1;text-align:center;}}
     </style>
 </head>
 <body>
@@ -1648,6 +1680,98 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </footer>
 
+    <!-- ── Cookie Banner AOS — HTML ── -->
+    <div id="cookie-banner" role="dialog" aria-label="Preferências de cookies" aria-live="polite">
+      <div class="cb-inner">
+        <div class="cb-logo">
+          <img src="https://app-algoritmo.github.io/aos/logo.png" alt="Logo AOS">
+          <div>
+            <span class="cb-logo-text">AOS</span>
+            <span class="cb-logo-sub">PMESP</span>
+          </div>
+        </div>
+        <div class="cb-text">
+          <strong>🍪 Privacidade & Cookies</strong>
+          <p>Utilizamos cookies para analisar o tráfego e melhorar sua experiência. Você pode escolher quais aceitar. Leia nossa <a href="https://aos.org.br/politica-de-privacidade" target="_blank">Política de Privacidade</a> e o <a href="https://aos.org.br/aviso-de-cookies" target="_blank">Aviso de Cookies</a>.</p>
+        </div>
+        <div class="cb-toggles">
+          <label class="cb-toggle-item disabled" title="Sempre ativos">
+            <input type="checkbox" id="cb-necessary" checked disabled>
+            <span>Necessários</span>
+          </label>
+          <label class="cb-toggle-item">
+            <input type="checkbox" id="cb-analytics">
+            <span>Análise</span>
+          </label>
+          <label class="cb-toggle-item">
+            <input type="checkbox" id="cb-marketing">
+            <span>Marketing</span>
+          </label>
+        </div>
+        <div class="cb-actions">
+          <button class="cb-btn cb-btn-accept" onclick="aosConsentAcceptAll()">Aceitar tudo</button>
+          <button class="cb-btn cb-btn-save"   onclick="aosConsentSave()">Salvar escolha</button>
+          <button class="cb-btn cb-btn-reject" onclick="aosConsentRejectAll()">Rejeitar</button>
+        </div>
+      </div>
+    </div>
+    <button id="cookie-prefs-link" onclick="aosShowBanner()" aria-label="Reabrir preferências de cookies">🍪 Cookies</button>
+    <!-- ── Cookie Banner AOS — Script ── -->
+    <script>
+      (function() {
+        var banner    = document.getElementById('cookie-banner');
+        var prefsLink = document.getElementById('cookie-prefs-link');
+        var STORE_KEY = 'aos_consent';
+        function init() {
+          if (!localStorage.getItem(STORE_KEY)) {
+            setTimeout(function(){ banner.classList.add('visible'); }, 600);
+          } else {
+            prefsLink.style.display = 'block';
+          }
+        }
+        function updateConsent(analytics, marketing) {
+          if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+              'ad_storage':         marketing ? 'granted' : 'denied',
+              'analytics_storage':  analytics ? 'granted' : 'denied',
+              'ad_user_data':       marketing ? 'granted' : 'denied',
+              'ad_personalization': marketing ? 'granted' : 'denied',
+            });
+          }
+        }
+        function save(analytics, marketing) {
+          localStorage.setItem(STORE_KEY, JSON.stringify({ analytics: analytics, marketing: marketing, timestamp: new Date().toISOString() }));
+          updateConsent(analytics, marketing);
+          banner.classList.remove('visible');
+          prefsLink.style.display = 'block';
+        }
+        window.aosConsentAcceptAll = function() {
+          document.getElementById('cb-analytics').checked = true;
+          document.getElementById('cb-marketing').checked = true;
+          save(true, true);
+        };
+        window.aosConsentRejectAll = function() {
+          document.getElementById('cb-analytics').checked = false;
+          document.getElementById('cb-marketing').checked = false;
+          save(false, false);
+        };
+        window.aosConsentSave = function() {
+          save(document.getElementById('cb-analytics').checked, document.getElementById('cb-marketing').checked);
+        };
+        window.aosShowBanner = function() {
+          var saved = localStorage.getItem(STORE_KEY);
+          if (saved) {
+            var c = JSON.parse(saved);
+            document.getElementById('cb-analytics').checked = !!c.analytics;
+            document.getElementById('cb-marketing').checked = !!c.marketing;
+          }
+          banner.classList.add('visible');
+          prefsLink.style.display = 'none';
+        };
+        init();
+      })();
+    </script>
+
     <script>
         // Scroll reveal animation
         const revealElements = document.querySelectorAll('.reveal');
@@ -1746,4 +1870,3 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
 </body>
 </html>
-
